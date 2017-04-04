@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Sheetsu\\Interfaces\\' => array($baseDir . '/src/interfaces'),
+    'Sheetsu\\' => array($baseDir . '/src'),
 );
