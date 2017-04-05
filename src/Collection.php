@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: emilianozublena
- * Date: 17/3/17
- * Time: 8:54 PM
+ * This class helps to manage and group rows given by Sheetsu API as collections of models.
+ * @Author: Emiliano Zublena - https://github.com/emilianozublena
+ * @Package: Sheetsu PHP Library - https://github.com/emilianozublena/sheetsu-php
  */
 
 namespace Sheetsu;

@@ -8,11 +8,33 @@
 ini_set('display_error', 1);
 error_reporting(E_ALL);
 require('vendor/autoload.php');
-$sheetsu = new \Sheetsu\Sheetsu([
+use Sheetsu\Sheetsu;
+use Sheetsu\Collection;
+use Sheetsu\Model;
+
+$sheetsu = new Sheetsu([
+    'sheetId' => '3e1eaa03cb5d',
     'key' => 'ssyzhmH1UvDSwYg4ek2Q',
     'secret' => 'pbA2BqMjF6q9joiystWfXN49HsvMnnxwsyZxpHQ3'
 ]);
-$sheetsu->setSheetId('3e1eaa03cb5d');
-$response = $sheetsu->read();
-$sheetCollection = $response->getCollection();
-var_dump($sheetCollection);
+
+/*$collection = new Collection();
+$collection->add([
+    Model::create(['nombre' => 'hola']),
+    Model::create(['nombre' => 'holas'])
+]);
+$response = $sheetsu->create($collection);
+print_r($response);*/
+
+//$response = $sheetsu->read();
+//print_r($response);
+
+//$response = $sheetsu->search(['nombre' => 'Florencia']);
+//print_r($response);
+
+//$response = $sheetsu->delete('nombre', 'kalashnikov');
+//print_r($response);
+
+//$model = Model::create(['email' => '1sdasdasd', 'web' => 'http://google.com']);
+//$response = $sheetsu->update('nombre', 'kalashnikov', $model);
+//print_r($response);

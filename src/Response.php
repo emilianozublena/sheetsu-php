@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: emilianozublena
- * Date: 17/3/17
- * Time: 8:55 PM
+ * This class receives the response from cURL and abstracts the process of creating collections or models from the api response given
+ * @Author: Emiliano Zublena - https://github.com/emilianozublena
+ * @Package: Sheetsu PHP Library - https://github.com/emilianozublena/sheetsu-php
  */
 
 namespace Sheetsu;

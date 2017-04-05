@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: emilianozublena
- * Date: 17/3/17
- * Time: 6:51 PM
+ * Main class for comunicating with the Sheetsu API :)
+ * @Author: Emiliano Zublena - https://github.com/emilianozublena
+ * @Package: Sheetsu PHP Library - https://github.com/emilianozublena/sheetsu-php
  */
 
 namespace Sheetsu;
