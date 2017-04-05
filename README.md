@@ -22,7 +22,7 @@ $sheetsu = new Sheetsu([
 ]);
 ```
 
-If you have HTTP Basic Authentication turned on for your API, you should pass `api_key` and `api_secret` here, like:
+If you have HTTP Basic Authentication turned on for your API, you should pass `key` and `secret` here, like:
 ```php
 require('vendor/autoload.php');
 use Sheetsu\Sheetsu;
@@ -37,9 +37,13 @@ $sheetsu = new Sheetsu([
 ### Collection-Model
 
 The Sheetsu PHP Library comes with a small implementation of the Collection-Model pattern.
+
 Collections are objects that group n ammount of Models. Collections have different functions that helps to work with groups of Models in a OOP way
+
 Models are units of Collections (in this case, each Model represents a Row of the given sheet).
+
 Instead of giving arrays to the Sheetsu Client (for CRUD operations), you can do something like this:
+
 ```php
 $collection = new Collection();
 $collection->add([
@@ -48,22 +52,30 @@ $collection->add([
 ]);
 $response = $sheetsu->create($collection);
 ```
+Collections and Models are the 2 objects that you are going to get every time you call the api too.
 
 ### Create
 [Link to docs](https://sheetsu.com/docs#post)
 
-To add data to Google Spreadsheets, send a hash or an array of hashes.
-```ruby
-# Adds single row
-client.create({ id: 7, name: "Glenn", score: "69" })
+To add data to Google Spreadsheets, send an array, an array of arrays, or more simply, work with Models or Collections ;)
 
-# Adds bunch of rows
-rows = [
-  { id: 7, name: "Glenn", score: "69" },
-  { id: 8, name: "Brian", score: "77" },
-  { id: 9, name: "Joe", score: "45" }
-]
-client.create(rows)
+```php
+# Adds single row from array
+$sheetsu->create(['name' => 'John']);
+# Adds multiple rows from array
+$sheetsu->create([
+    ['name' => 'John'],
+    ['name' => 'Steve'
+]);
+# Adds single row from Model
+$sheetsu->create(Model::create(['name' => 'John']));
+# Adds multiple rows from Collection
+$collection = new Collection();
+$collection->add([
+    Model::create(['name' => 'John']),
+    Model::create(['name' => 'Steve'])
+]);
+$response = $sheetsu->create($collection);
 ```
 
 By default, all writes are performed on the first sheet (worksheet). Pass name of a sheet as a 2nd param to add data to other worksheet.
