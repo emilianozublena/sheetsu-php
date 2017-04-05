@@ -7,6 +7,9 @@
 
 namespace Sheetsu;
 
+use Sheetsu\Interfaces\CollectionInterface;
+use Sheetsu\Interfaces\ModelInterface;
+
 final class Sheetsu
 {
     const BASE_URL = 'https://sheetsu.com/apis/v1.0/';
@@ -53,7 +56,7 @@ final class Sheetsu
             'url'       => $this->sheetUrl
         ];
 
-        if($insertData instanceof Collection) {
+        if($insertData instanceof CollectionInterface) {
             $connectionConfig['params'] = '{"rows":'.$insertData->_prepareCollectionToJson().'}';
         }else {
             $connectionConfig['params'] = ['rows' => $insertData];
@@ -68,7 +71,7 @@ final class Sheetsu
             'url'       => $this->sheetUrl.'/'.$columnName.'/'.$value
         ];
 
-        if($updateData instanceof Model) {
+        if($updateData instanceof ModelInterface) {
             $connectionConfig['params'] = $updateData->_prepareModelAsJson();
         }else {
             $connectionConfig['params'] = $updateData;

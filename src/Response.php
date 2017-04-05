@@ -24,7 +24,7 @@ class Response implements ResponseInterface
         return new Collection($this->curl->response);
     }
 
-    public function getModel(){
+    public function getRow(){
         $collection = $this->getCollection();
         return $collection->getFirst();
     }

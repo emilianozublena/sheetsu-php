@@ -1,13 +1,14 @@
 <?php
 /**
- * This class helps to manage and group rows given by Sheetsu API as collections of models.
+ * This class helps to manage and group models given by Sheetsu API as collections of models.
  * @Author: Emiliano Zublena - https://github.com/emilianozublena
  * @Package: Sheetsu PHP Library - https://github.com/emilianozublena/sheetsu-php
  */
 
 namespace Sheetsu;
 
-use Sheetsu\Interfaces\CollectionInterface as CollectionInterface;
+use Sheetsu\Interfaces\CollectionInterface;
+use Sheetsu\Model;
 
 class Collection implements CollectionInterface
 {
@@ -17,26 +18,47 @@ class Collection implements CollectionInterface
         $this->_prepareCollectionFromJson($curlResponse);
     }
 
-    public function add($data){
-        if($data instanceof Model && !$this->_isModelSet($data)){
-            $this->models[] = $data;
-        }elseif(is_array($data)) {
-            foreach($data as $key => $model) {
-                $this->add($model);
-            }
+    /**
+     * Adds given implementation of Model to the collection.
+     * @param Model $model
+     */
+    public function add(Model $model){
+        if(!$this->_isModelSet($model)){
+            $this->models[] = $model;
         }
     }
 
+    /**
+     * Adds an associative array of Model implementations to the collection.
+     * @param array $models
+     */
+    public function addMultiple(array $models) {
+        foreach($models as $key => $model) {
+            $this->add($model);
+        }
+    }
+
+    /**
+     * Deletes model in collection by given key
+     * @param $key
+     * @return bool
+     */
     public function delete($key){
+        //reemplazar por exception?
         if($this->_isKeySet($key)) {
             unset($this->models[$key]);
+            return true;
         }
+        return false;
     }
 
+    /**
+     * Takes $key, checks if its set and returns given Model. If there's none, returns null.
+     * @param $key
+     * @return Model || null;
+     */
     public function get($key){
-        if($this->_isKeySet($key)){
-            return $this->models[$key];
-        }
+        return $this->_isKeySet($key) ? $this->models[$key] : null;
     }
 
     public function getFirst()
@@ -67,12 +89,17 @@ class Collection implements CollectionInterface
         return count($this->models)>0 && isset($this->models[0]);
     }
 
+    /**
+     * Takes json string, decodes it into an associative array of stdClass objects
+     * And then create models and calls for add() to add it to the collection.
+     * @param $json
+     */
     private function _prepareCollectionFromJson($json)
     {
         $arResponse = json_decode($json);
-        foreach($arResponse as $key => $row){
-            $model = Model::create($row);
-            $this->models[] = $model;
+        foreach($arResponse as $key => $model){
+            $model = Model::create($model);
+            $this->add($model);
         }
     }
 

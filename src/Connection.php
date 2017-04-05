@@ -31,12 +31,23 @@ class Connection implements ConnectionInterface
         $this->curl->setBasicAuthentication($this->config['key'], $this->config['secret']);
     }
 
+    /**
+     * This public function prepares the query parameters, sets the final url, checks for json headers and adds parameters as json string.
+     * Then, it uses Curl for making the call and returns a Response object.
+     * @return Response
+     */
     public function makeCall(){
         if($this->_isValidCall()) {
             $method = $this->config['method'];
-            $this->_prepareQueryParams();
-            $this->_prepareUrlForCall();
-            $this->_setJsonHeaders();
+            if($this->_hasLimit()) {
+                $this->_prepareQueryParams();
+            }
+            if($this->_hasQueryParams()) {
+                $this->_prepareUrlForCall();
+            }
+            if($this->_needsJsonHeaders()) {
+                $this->_setJsonHeaders();
+            }
             $this->_prepareParametersAsJson();
             $this->curl->$method(
                 $this->config['url'].'/',
@@ -51,32 +62,47 @@ class Connection implements ConnectionInterface
         return isset($this->config['method']) && isset($this->config['url']);
     }
 
+    /**
+     * Checks for limit and offset in params and sets it as queryParams
+     */
     private function _prepareQueryParams(){
-        if(isset($this->config['limit'])) {
-            if($this->config['limit']>0) {
-                $this->config['queryParams']['limit'] = $this->config['limit'];
-            }
-            if($this->config['limit']>0) {
-                $this->config['queryParams']['offset'] = $this->config['offset'];
-            }
-            unset($this->config['limit']);
-            unset($this->config['offset']);
+        if($this->config['limit']>0) {
+            $this->config['queryParams']['limit'] = $this->config['limit'];
         }
+        if($this->config['limit']>0) {
+            $this->config['queryParams']['offset'] = $this->config['offset'];
+        }
+        unset($this->config['limit']);
+        unset($this->config['offset']);
     }
 
+    private function _hasLimit(){
+        return isset($this->config['limit']);
+    }
+
+    /**
+     * builds $callabeUrl with http_build_query for queryParams.
+     */
     private function _prepareUrlForCall() {
         $callableUrl = $this->config['url'];
-        if(isset($this->config['queryParams'])) {
-            $callableUrl .= '/?';
-            $callableUrl .= http_build_query($this->config['queryParams']);
-        }
+        $callableUrl .= '/?';
+        $callableUrl .= http_build_query($this->config['queryParams']);
         $this->config['url'] = $callableUrl;
     }
 
+    private function _hasQueryParams(){
+        return isset($this->config['queryParams']);
+    }
+
+    /**
+     * set application/json as content type header
+     */
     private function _setJsonHeaders(){
-        if($this->config['method']=='post' || $this->config['method']=='put' || $this->config['method']=='patch') {
-            $this->curl->setHeader('Content-Type', 'application/json');
-        }
+        $this->curl->setHeader('Content-Type', 'application/json');
+    }
+
+    private function _needsJsonHeaders(){
+        return $this->config['method']=='post' || $this->config['method']=='put' || $this->config['method']=='patch';
     }
 
     private function _prepareParametersAsJson(){

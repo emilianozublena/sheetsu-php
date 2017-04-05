@@ -17,17 +17,17 @@ $sheetsu = new Sheetsu([
     'key' => 'ssyzhmH1UvDSwYg4ek2Q',
     'secret' => 'pbA2BqMjF6q9joiystWfXN49HsvMnnxwsyZxpHQ3'
 ]);
-
-/*$collection = new Collection();
-$collection->add([
+$collection = new Collection();
+$collection->addMultiple([
     Model::create(['nombre' => 'hola']),
     Model::create(['nombre' => 'holas'])
 ]);
 $response = $sheetsu->create($collection);
-print_r($response);*/
+print_r($response);
+
 
 //$response = $sheetsu->read();
-//print_r($response);
+//print_r($response->getCollection());
 
 //$response = $sheetsu->search(['nombre' => 'Florencia']);
 //print_r($response);
@@ -35,6 +35,6 @@ print_r($response);*/
 //$response = $sheetsu->delete('nombre', 'kalashnikov');
 //print_r($response);
 
-//$model = Model::create(['email' => '1sdasdasd', 'web' => 'http://google.com']);
+//$model = Row::create(['email' => '1sdasdasd', 'web' => 'http://google.com']);
 //$response = $sheetsu->update('nombre', 'kalashnikov', $model);
 //print_r($response);

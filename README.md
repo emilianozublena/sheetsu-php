@@ -1,10 +1,5 @@
 # sheetsu-php
 
-## Installation
-
-## TODO
-- [ ] Make this repository work as package with Composer
-
 ## Usage
 
 ### Instantianting the Sheetsu Client
@@ -78,128 +73,77 @@ $collection->add([
 $response = $sheetsu->create($collection);
 ```
 
-By default, all writes are performed on the first sheet (worksheet). Pass name of a sheet as a 2nd param to add data to other worksheet.
-```ruby
-# Adds single row to worksheet named "Sheet3"
-client.create({ "foo" => "bar", "baz" => "quux" }, "Sheet3")
-```
-
-On success returns a hash or an array of hashes with created values. On error check [errors](#errors).
+After call is made, returns a Response object.
 
 ### Read
 [Link to docs](https://sheetsu.com/docs#get)
 
 Read the whole sheet
-```ruby
-client.read
+```php
+$response = $sheetsu->read();
+$collection = $response->getCollection();
 ```
 
-You can pass hash with options
-  - `sheet` - get data from named worksheet
+Read function allows 2 parameters
   - `limit` - limit number of results
   - `offset` - start from N first record
-  - `search` - hash with search params [(more below)](#search)
 
-```ruby
-# Get first two rows from worksheet named "Sheet2"
-client.read(sheet: "Sheet2", limit: 2)
-
-# Get 5th record from worksheet named "Sheet3"
-client.read(
-  offset: 4, # because rows are numbered from 0
-  limit: 1,  # because only one row
-  sheet: "Sheet3"
-)
+```php
+# Get first two rows from sheet starting from the first row
+$response = $sheetsu->read(2, 0);
+$collection = $response->getCollection();
 ```
 
 #### search
 [Link to docs](https://sheetsu.com/docs#get_search)
 
-To get rows that match search criteria, pass a hash with search params
+To get rows that match search criteria, pass an array with criteria
 
-```ruby
+```php
 # Get all rows where column 'id' is 'foo' and column 'value' is 'bar'
-client.read(search: { id: "foo", value: "bar" })
+$response = $sheetsu->search([
+    'id'    => 'foo',
+    'value' => 'bar'
+]);
+$collection = $response->getCollection();
 
 # Get all rows where column 'First name' is 'Peter' and column 'Score' is '42'
-client.read(search: { "First name" => "Peter", "Score" => 42 })
+$response = $sheetsu->search([
+    'First name'    => 'Peter',
+    'Score'         => '42'
+]);
+$collection = $response->getCollection();
 
 # Get first two row where column 'First name' is 'Peter',
 # column 'Score' is '42' from sheet named "Sheet3"
-client.read(
-  search: { "First name" => "Peter", "Score" => 42 } # search criteria
-  limit: 2        # first two rows
-  sheet: "Sheet3" # Sheet name
-)
+$response = $sheetsu->search([
+    'First name'    => 'Peter',
+    'Score'         => '42'
+], 2, 0);
+$collection = $response->getCollection();
 ```
-
-On success returns an array of hashes. On error check [errors](#errors).
 
 ### Update
 [Link to docs](https://sheetsu.com/docs#patch)
 
-To update row(s), pass column name and its value which is used to find row(s).
+To update row(s), pass column name and its value which is used to find row(s) and an array or model with the data to update.
 
-```ruby
+```php
 # Update all columns where 'name' is 'Peter' to have 'score' = 99 and 'last name' = 'Griffin'
-client.update(
-  "name", # column name
-  "Peter", # value to search for
-  { "score": 99, "last name" => "Griffin" }, # hash with updates
-)
+$model = Model::create(['score' => '99', 'last name' => 'Griffin']);
+$response = $sheetsu->update('name', 'Peter', $model);
 ```
 
 By default, [PATCH request](https://sheetsu.com/docs#patch) is sent, which is updating only values which are in the hash passed to the method. To send [PUT request](https://sheetsu.com/docs#put), pass 4th argument being `true`. [Read more about the difference between PUT and PATCH in our docs](https://sheetsu.com/docs#patch).
-
-
-```ruby
-# Update all columns where 'name' is 'Peter' to have 'score' = 99 and 'last name' = 'Griffin'
-# Empty all cells which matching, which are not 'score' or 'last name'
-client.update(
-  "name", # column name
-  "Peter", # value to search for
-  { "score": 99, "last name" => "Griffin" }, # hash with updates
-  true # nullify all fields not passed in the hash above
-)
-```
-
-To perform `#update` on different than the first sheet, pass sheet name as a 5th argument.
-```ruby
-# Update all columns where 'name' is 'Peter' to have 'score' = 99 and 'last name' = 'Griffin'
-# In sheet named 'Sheet3'
-# Empty all cells which matching, which are not 'score' or 'last name'
-client.update(
-  "name", # column name
-  "Peter", # value to search for
-  { "score": 99, "last name" => "Griffin" }, # hash with updates
-  true, # nullify all fields not passed in the hash above
-  "Sheet3"
-)
-```
-
-On success returns an array of hashes with updated values. On error check [errors](#errors).
 
 ### Delete
 [Link to docs](https://sheetsu.com/docs#delete)
 
 To delete row(s), pass column name and its value which is used to find row(s).
 
-```ruby
+```php
 # Delete all rows where 'name' equals 'Peter'
-client.delete(
-  "name", # column name
-  "Peter" # value to search for
-)
-```
-
-You can pass sheet name as a 3rd argument. All operations are performed on the first sheet, by default.
-```ruby
-# Delete all rows where 'foo' equals 'bar' in sheet 'Sheet3'
-client.delete(
-  "foo",   # column name
-  "bar",   # value to search for
-  "Sheet3" # sheet name
-)
+$response = $sheetsu->delete('name', 'Peter');
 ```
 
 If success returns `:ok` symbol. If error check [errors](#errors).
@@ -210,7 +154,7 @@ There are different styles of error handling. We choose to throw exceptions and 
 All exceptions are a subclass of `Sheetsu::SheetsuError`. The list of different error subclasses is listed below. You can choose to rescue each of them or rescue just the parent class (`Sheetsu::SheetsuError`).
 
 
-```ruby
+```php
 Sheetsu::NotFoundError
 Sheetsu::ForbiddenError
 Sheetsu::LimitExceedError
@@ -253,3 +197,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/sheets
 ### Docs
 
 [Sheetsu documentation sits on GitHub](https://github.com/sheetsu/docs). We would love your contributions! We want to make these docs accessible and easy to understand for everyone. Please send us Pull Requests or open issues on GitHub.
+
+## TODO
+- [ ] Make this repository work as package with Composer
+- [ ] Define and implement ErrorHandler to leverage the final user from handling http status code's

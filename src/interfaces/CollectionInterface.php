@@ -6,11 +6,13 @@
  */
 
 namespace Sheetsu\Interfaces;
+use Sheetsu\Model;
 
 interface CollectionInterface
 {
     function __construct($curlResponse=null);
-    function add($data);
+    function add(Model $model);
+    function addMultiple(array $rows);
     function delete($key);
     function get($key);
     function getFirst();

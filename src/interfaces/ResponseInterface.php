@@ -12,5 +12,5 @@ interface ResponseInterface
 {
     function getHttpStatusCode();
     function getCollection();
-    function getModel();
+    function getRow();
 }
