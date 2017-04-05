@@ -31,9 +31,7 @@ $sheetsu = new Sheetsu([
 
 ### Collection-Model
 
-The Sheetsu PHP Library comes with a small implementation of the Collection-Model pattern.
-
-Collections are objects that group n ammount of Models. Collections have different functions that helps to work with groups of Models in a OOP way
+The Sheetsu PHP Library comes with a small implementation of a [Collection abstract data type](https://en.wikipedia.org/wiki/Collection_(abstract_data_type)).
 
 Models are units of Collections (in this case, each Model represents a Row of the given sheet).
 
