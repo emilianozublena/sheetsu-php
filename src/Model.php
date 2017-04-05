@@ -12,16 +12,40 @@ use Sheetsu\Interfaces\ModelInterface;
 
 class Model implements ModelInterface
 {
-    public function create(){
-
+    function __construct($data) {
+        $this->_storeProperties($data);
     }
-    public function update(){
 
+    public function update($data){
+        $this->_storeProperties($data);
     }
-    public function delete(){
 
+    static function create($data){
+        return new Model($data);
     }
-    public function get(){
 
+    private function _storeProperties($properties) {
+        if(is_array($properties)) {
+            $this->_storePropertiesFromArray($properties);
+        }else{
+            $this->_storePropertiesFromStdClass($properties);
+        }
+    }
+
+    private function _storePropertiesFromArray(array $attributes){
+        foreach($attributes as $property => &$value) {
+            $this->$property = &$value;
+        }
+    }
+
+    private function _storePropertiesFromStdClass($object) {
+        foreach($object as $property => &$value) {
+            $this->$property = &$value;
+        }
+    }
+
+    public function _prepareModelAsJson()
+    {
+        return json_encode($this);
     }
 }

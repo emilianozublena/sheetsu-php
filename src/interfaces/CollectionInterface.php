@@ -7,16 +7,14 @@
  */
 
 namespace Sheetsu\Interfaces;
-
+use Sheetsu\Model as Model;
 
 interface CollectionInterface
 {
-    function __construct($curlResponse);
-    function add();
-    function update();
-    function delete();
-    function get();
-    function where();
-    function findWhere();
-    function prepareCollectionFromJson($json);
+    function __construct($curlResponse=null);
+    function add($data);
+    function delete($key);
+    function get($key);
+    function getFirst();
+    function _prepareCollectionToJson();
 }

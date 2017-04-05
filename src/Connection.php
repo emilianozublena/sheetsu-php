@@ -18,49 +18,76 @@ class Connection implements ConnectionInterface
     function __construct($config=array()){
         $this->config = $config;
         $this->curl = new Curl();
-        if($this->hasAuth()) {
-            $this->httpBasicAuth();
+        if($this->_hasAuth()) {
+            $this->_httpBasicAuth();
         }
     }
 
-    private function hasAuth(){
+    private function _hasAuth(){
         return isset($this->config['key']) && isset($this->config['secret']);
     }
 
-    private function httpBasicAuth(){
+    private function _httpBasicAuth(){
         $this->curl->setBasicAuthentication($this->config['key'], $this->config['secret']);
     }
 
     public function makeCall(){
-        if($this->isValidCall()) {
+        if($this->_isValidCall()) {
             $method = $this->config['method'];
-            $data = isset($this->config['data']) ? $this->config['data'] : [];
-            $callableUrl = $this->prepareUrlForCall();
+            $this->_prepareQueryParams();
+            $this->_prepareUrlForCall();
+            $this->_setJsonHeaders();
+            $this->_prepareParametersAsJson();
             $this->curl->$method(
-                $callableUrl,
-                $data
+                $this->config['url'].'/',
+                $this->config['params'],
+                true
             );
-            return $this->createResponse($this->curl->response);
+            return $this->_createResponse($this->curl);
         }
     }
 
-    private function isValidCall(){
+    private function _isValidCall(){
         return isset($this->config['method']) && isset($this->config['url']);
     }
 
-    private function prepareUrlForCall() {
-        $callableUrl = $this->config['url'];
-        if(isset($this->config['queryParams'])) {
-            $callableUrl .= '?';
-            foreach($this->config['queryParams'] as $param => $value) {
-                $callableUrl .= $param.'='.$value.'&';
+    private function _prepareQueryParams(){
+        if(isset($this->config['limit'])) {
+            if($this->config['limit']>0) {
+                $this->config['queryParams']['limit'] = $this->config['limit'];
             }
-            substr($callableUrl, 0, strlen($callableUrl)-1);
+            if($this->config['limit']>0) {
+                $this->config['queryParams']['offset'] = $this->config['offset'];
+            }
+            unset($this->config['limit']);
+            unset($this->config['offset']);
         }
-        return $callableUrl;
     }
 
-    private function createResponse($curlResponse){
+    private function _prepareUrlForCall() {
+        $callableUrl = $this->config['url'];
+        if(isset($this->config['queryParams'])) {
+            $callableUrl .= '/?';
+            $callableUrl .= http_build_query($this->config['queryParams']);
+        }
+        $this->config['url'] = $callableUrl;
+    }
+
+    private function _setJsonHeaders(){
+        if($this->config['method']=='post' || $this->config['method']=='put' || $this->config['method']=='patch') {
+            $this->curl->setHeader('Content-Type', 'application/json');
+        }
+    }
+
+    private function _prepareParametersAsJson(){
+        if(isset($this->config['params']) && is_array($this->config['params'])) {
+            $this->config['params'] = json_encode($this->config['params']);
+        }elseif(!isset($this->config['params'])){
+            $this->config['params'] = json_encode([]);
+        }
+    }
+
+    private function _createResponse($curlResponse){
         return new Response($curlResponse);
     }
 

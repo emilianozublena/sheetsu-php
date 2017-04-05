@@ -11,20 +11,22 @@ use Sheetsu\Interfaces\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-    private $curlResponse;
-    private $errorHandler;
+    private $curl;
 
-    function __construct($curlResponse) {
-        $this->curlResponse = $curlResponse;
+    function __construct($curl) {
+        $this->curl = $curl;
     }
 
     public function getHttpStatusCode(){
-
+        return $this->curl->http_status_code;
     }
+
     public function getCollection(){
-        return new Collection($this->curlResponse);
+        return new Collection($this->curl->response);
     }
-    public function getModel(){
 
+    public function getModel(){
+        $collection = $this->getCollection();
+        return $collection->getFirst();
     }
 }
