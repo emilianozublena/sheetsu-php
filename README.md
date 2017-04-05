@@ -39,7 +39,7 @@ Instead of giving arrays to the Sheetsu Client (for CRUD operations), you can do
 
 ```php
 $collection = new Collection();
-$collection->add([
+$collection->addMultiple([
     Model::create(['name' => 'John']),
     Model::create(['name' => 'Steve'])
 ]);
@@ -64,7 +64,7 @@ $sheetsu->create([
 $sheetsu->create(Model::create(['name' => 'John']));
 # Adds multiple rows from Collection
 $collection = new Collection();
-$collection->add([
+$collection->addMultiple([
     Model::create(['name' => 'John']),
     Model::create(['name' => 'Steve'])
 ]);
@@ -132,7 +132,7 @@ $model = Model::create(['score' => '99', 'last name' => 'Griffin']);
 $response = $sheetsu->update('name', 'Peter', $model);
 ```
 
-By default, [PATCH request](https://sheetsu.com/docs#patch) is sent, which is updating only values which are in the hash passed to the method. To send [PUT request](https://sheetsu.com/docs#put), pass 4th argument being `true`. [Read more about the difference between PUT and PATCH in our docs](https://sheetsu.com/docs#patch).
+By default, [PATCH request](https://sheetsu.com/docs#patch) is sent, which is updating only values which are in the collection passed to the method. To send [PUT request](https://sheetsu.com/docs#put), pass 4th argument being `true`. [Read more about the difference between PUT and PATCH in sheetsu docs](https://sheetsu.com/docs#patch).
 
 ### Delete
 [Link to docs](https://sheetsu.com/docs#delete)
@@ -143,58 +143,6 @@ To delete row(s), pass column name and its value which is used to find row(s).
 # Delete all rows where 'name' equals 'Peter'
 $response = $sheetsu->delete('name', 'Peter');
 ```
-
-If success returns `:ok` symbol. If error check [errors](#errors).
-
-### Errors
-There are different styles of error handling. We choose to throw exceptions and signal failure loudly. You do not need to deal with any HTTP responses from the API calls directly. All exceptions are matching particular response code from Sheetsu API. You can [read more about it here](https://sheetsu.com/docs#statuses).
-
-All exceptions are a subclass of `Sheetsu::SheetsuError`. The list of different error subclasses is listed below. You can choose to rescue each of them or rescue just the parent class (`Sheetsu::SheetsuError`).
-
-
-```php
-Sheetsu::NotFoundError
-Sheetsu::ForbiddenError
-Sheetsu::LimitExceedError
-Sheetsu::UnauthorizedError
-```
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-Run all tests:
-```
-rspec
-```
-
-Run a single test:
-```
-rspec spec/read_spec.rb
-```
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/sheetsu/sheetsu-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-### Pull Requests
-
-- **Add tests!** Your patch won't be accepted if it doesn't have tests.
-
-- **Create topic branches**. Please, always create a branch with meaningful name. Don't ask us to pull from your master branch.
-
-- **One pull request per feature**. If you want to do more than one thing, please send
-  multiple pull requests.
-
-- **Send coherent history**. Make sure each individual commit in your pull
-  request is meaningful. If you had to make multiple intermediate commits while
-  developing, please squash them before sending them to us.
-
-### Docs
-
-[Sheetsu documentation sits on GitHub](https://github.com/sheetsu/docs). We would love your contributions! We want to make these docs accessible and easy to understand for everyone. Please send us Pull Requests or open issues on GitHub.
 
 ## TODO
 - [ ] Make this repository work as package with Composer
