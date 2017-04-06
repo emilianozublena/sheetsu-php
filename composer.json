@@ -1,10 +1,10 @@
 {
     "name": "emilianozublena/sheetsu-php",
     "description": "PHP 5.6+ Library for the Sheetsu API http://sheetsu.com",
-    "authors": {
+    "authors": [{
         "name": "Emiliano Zublena",
         "email": "ezublena@gmail.com"
-    },
+    }],
     "require": {
         "php": ">=5.5",
         "curl/curl": "^1.6"
