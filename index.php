@@ -13,21 +13,20 @@ use Sheetsu\Collection;
 use Sheetsu\Model;
 
 $sheetsu = new Sheetsu([
-    'sheetId' => '3e1eaa03cb5d',
+    'sheetId' => '3e1eaa0asdadadasd3cb5d',
     'key' => 'ssyzhmH1UvDSwYg4ek2Q',
     'secret' => 'pbA2BqMjF6q9joiystWfXN49HsvMnnxwsyZxpHQ3'
 ]);
-$collection = new Collection();
+/*$collection = new Collection();
 $collection->addMultiple([
     Model::create(['nombre' => 'hola']),
     Model::create(['nombre' => 'holas'])
 ]);
 $response = $sheetsu->create($collection);
-print_r($response);
+print_r($response);*/
 
 
-//$response = $sheetsu->read();
-//print_r($response->getCollection());
+$response = $sheetsu->read();
 
 //$response = $sheetsu->search(['nombre' => 'Florencia']);
 //print_r($response);

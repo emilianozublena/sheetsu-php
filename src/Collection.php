@@ -110,4 +110,13 @@ class Collection implements CollectionInterface
     public function getModels(){
         return $this->models;
     }
+
+    /**
+     * This function expects a closure or anon function to exec for every model in the collection.
+     * @param $closure
+     * @return array
+     */
+    public function _doClosureForWholeCollection($closure){
+        return array_map($closure, $this->models);
+    }
 }

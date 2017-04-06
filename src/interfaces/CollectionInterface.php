@@ -17,4 +17,5 @@ interface CollectionInterface
     function get($key);
     function getFirst();
     function _prepareCollectionToJson();
+    function _doClosureForWholeCollection($closure);
 }

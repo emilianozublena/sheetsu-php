@@ -144,6 +144,14 @@ To delete row(s), pass column name and its value which is used to find row(s).
 $response = $sheetsu->delete('name', 'Peter');
 ```
 
+### Http Status Codes
+Until ErrorHandler is implemented. the Response object can easily return the http status code for the last call made to the api
+```php
+$response = $sheetsu->read();
+$response->getHttpStatusCode();
+```
+
 ## TODO
-- [ ] Make this repository work as package with Composer
 - [ ] Define and implement ErrorHandler to leverage the final user from handling http status code's
+- [ ] Define and implement search algorithm within Collections to leverage calls to the api's endpoint
+- [ ] Make this repository work as package with Composer

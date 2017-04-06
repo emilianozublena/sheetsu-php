@@ -10,7 +10,8 @@ namespace Sheetsu\Interfaces;
 
 interface ResponseInterface
 {
-    function getHttpStatusCode();
+    function getErrors();
+    function getError();
     function getCollection();
-    function getRow();
+    function getModel();
 }
