@@ -144,14 +144,21 @@ To delete row(s), pass column name and its value which is used to find row(s).
 $response = $sheetsu->delete('name', 'Peter');
 ```
 
-### Http Status Codes
-Until ErrorHandler is implemented. the Response object can easily return the http status code for the last call made to the api
+### Response, Connection & Error Handling
+The Sheetsu PHP Library handles the connection through the Connection class. This class uses cURL for making connections and uses the Response class as returns.
+The Response object is the one responsible for giving the collections, models or errors (or any other response from the last call)
+Error handling is also made through the Response object (Response uses the ErrorHandler class to abstract the try/catch block and is tightly coupled to the ErrorException php class)
 ```php
 $response = $sheetsu->read();
-$response->getHttpStatusCode();
+#if you need only the error messages, you can get the errors like this
+$errors = $response->getErrors();
+$firstError = $response->getError();
+#if you need to get the exceptions thrown, do it like this.
+$exceptions = $response->getExceptions();
+$firstException = $response->getException();
 ```
 
 ## TODO
-- [ ] Define and implement ErrorHandler to leverage the final user from handling http status code's
+- [x] Define and implement ErrorHandler to leverage the final user from handling http status code's
 - [ ] Define and implement search algorithm within Collections to leverage calls to the api's endpoint
 - [ ] Make this repository work as package with Composer
