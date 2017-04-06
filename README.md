@@ -5,7 +5,7 @@ The Sheetsu PHP Library is available through [Composer](https://getcomposer.org/
 
 You can edit your composer.json file or just hit this command in your terminal
 
-composer require sheetsu/sheetsu-php
+composer require emilianozublena/sheetsu-php
 
 ## Usage
 
