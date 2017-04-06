@@ -160,5 +160,5 @@ $firstException = $response->getException();
 
 ## TODO
 - [x] Define and implement ErrorHandler to leverage the final user from handling http status code's
+- [x] Make this repository work as package with Composer
 - [ ] Define and implement search algorithm within Collections to leverage calls to the api's endpoint
-- [ ] Make this repository work as package with Composer
