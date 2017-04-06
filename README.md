@@ -58,7 +58,7 @@ $sheetsu->create(['name' => 'John']);
 # Adds multiple rows from array
 $sheetsu->create([
     ['name' => 'John'],
-    ['name' => 'Steve'
+    ['name' => 'Steve']
 ]);
 # Adds single row from Model
 $sheetsu->create(Model::create(['name' => 'John']));

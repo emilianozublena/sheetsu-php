@@ -34,6 +34,15 @@ class Response implements ResponseInterface
         return $this->errorHandler->getFirstError();
     }
 
+    public function getExceptions()
+    {
+        return $this->errorHandler->getExceptions();
+    }
+
+    public function getException(){
+        return $this->errorHandler->getException();
+    }
+
     public function getCollection(){
         return new Collection($this->curl->response);
     }

@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c98c49abe2662c30f22ae94e9958aec7",
-    "content-hash": "ec76a63f5340c8aadab7ade8db057885",
+    "hash": "a0abcc9838c30b221c44f923c00df111",
+    "content-hash": "2994d679dbf701f006402bae2b8aa7f7",
     "packages": [
         {
             "name": "curl/curl",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mod/curl.git",
-                "reference": "213d0cc23a4a305f5d7a153d98f2db644a6ca909"
+                "reference": "96f5bd47bab8d76f1883c257c6659091987ef662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-mod/curl/zipball/213d0cc23a4a305f5d7a153d98f2db644a6ca909",
-                "reference": "213d0cc23a4a305f5d7a153d98f2db644a6ca909",
+                "url": "https://api.github.com/repos/php-mod/curl/zipball/96f5bd47bab8d76f1883c257c6659091987ef662",
+                "reference": "96f5bd47bab8d76f1883c257c6659091987ef662",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "curl",
                 "dot"
             ],
-            "time": "2017-01-13 18:26:02"
+            "time": "2017-04-03 15:04:35"
         }
     ],
     "packages-dev": [],

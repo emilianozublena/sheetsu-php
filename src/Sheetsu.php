@@ -9,7 +9,6 @@ namespace Sheetsu;
 
 use Sheetsu\Interfaces\CollectionInterface;
 use Sheetsu\Interfaces\ModelInterface;
-use Sheetsu\ErrorHandler;
 
 final class Sheetsu
 {

@@ -1,17 +1,17 @@
 [
     {
         "name": "curl/curl",
-        "version": "1.6.0",
-        "version_normalized": "1.6.0.0",
+        "version": "1.6.1",
+        "version_normalized": "1.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-mod/curl.git",
-            "reference": "213d0cc23a4a305f5d7a153d98f2db644a6ca909"
+            "reference": "96f5bd47bab8d76f1883c257c6659091987ef662"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-mod/curl/zipball/213d0cc23a4a305f5d7a153d98f2db644a6ca909",
-            "reference": "213d0cc23a4a305f5d7a153d98f2db644a6ca909",
+            "url": "https://api.github.com/repos/php-mod/curl/zipball/96f5bd47bab8d76f1883c257c6659091987ef662",
+            "reference": "96f5bd47bab8d76f1883c257c6659091987ef662",
             "shasum": ""
         },
         "require": {
@@ -22,7 +22,7 @@
             "phpunit/phpunit": "3.7.*",
             "squizlabs/php_codesniffer": "~2.1"
         },
-        "time": "2017-01-13 18:26:02",
+        "time": "2017-04-03 15:04:35",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
