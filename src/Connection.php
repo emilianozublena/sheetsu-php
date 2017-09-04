@@ -69,7 +69,7 @@ class Connection implements ConnectionInterface
         if($this->config['limit']>0) {
             $this->config['queryParams']['limit'] = $this->config['limit'];
         }
-        if($this->config['limit']>0) {
+        if($this->config['offset']>0) {
             $this->config['queryParams']['offset'] = $this->config['offset'];
         }
         unset($this->config['limit']);
