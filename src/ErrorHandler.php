@@ -7,6 +7,7 @@
  */
 
 namespace Sheetsu;
+
 use ErrorException;
 use Sheetsu\Interfaces\ErrorHandlerInterface;
 
@@ -15,11 +16,24 @@ final class ErrorHandler implements ErrorHandlerInterface
     private $errors;
     private $exceptions;
 
-    function __construct($exception=null) {
-        if($exception!=null && $exception instanceof ErrorException) {
-            $this->errors[] = $exception->getMessage();
-            $this->exceptions[] = $exception;
+    function __construct($init = null)
+    {
+        if ($this->_isValidExceptionObject($init)) {
+            $this->errors[] = $init->getMessage();
+            $this->exceptions[] = $init;
+        } elseif (is_array($init)) {
+            foreach ($init as $exception) {
+                if ($this->_isValidExceptionObject($exception)) {
+                    $this->errors[] = $exception->getMessage();
+                    $this->exceptions[] = $exception;
+                }
+            }
         }
+    }
+
+    private function _isValidExceptionObject($exception)
+    {
+        return $exception !== null && $exception instanceof ErrorException;
     }
 
     public function getErrors()
@@ -50,21 +64,25 @@ final class ErrorHandler implements ErrorHandlerInterface
      */
     static function checkForErrorsInCurl($curl)
     {
-        $checkFunction = function() use(&$curl) {
-            if($curl->http_status_code>=400) {
+        $checkFunction = function () use (&$curl) {
+            if ($curl->http_status_code >= 400) {
                 $errorResponse = json_decode($curl->response);
                 throw new ErrorException($errorResponse->error);
             }
         };
+
         return self::tryClosure($checkFunction);
     }
-    static function tryClosure($closure){
+
+    static function tryClosure($closure)
+    {
         try {
             return $closure();
-        }catch(ErrorException $e) {
+        } catch (ErrorException $e) {
             return self::create($e);
         }
     }
+
     static function create(ErrorException $exception)
     {
         return new ErrorHandler($exception);

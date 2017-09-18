@@ -11,9 +11,14 @@ namespace Sheetsu\Interfaces;
 interface ResponseInterface
 {
     function getErrors();
+
     function getError();
+
     function getExceptions();
+
     function getException();
+
     function getCollection();
+
     function getModel();
 }

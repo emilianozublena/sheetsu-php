@@ -11,6 +11,8 @@ namespace Sheetsu\Interfaces;
 interface ModelInterface
 {
     static function create($data);
+
     function update($data);
+
     function _prepareModelAsJson();
 }

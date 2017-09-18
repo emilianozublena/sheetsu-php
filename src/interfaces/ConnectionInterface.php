@@ -11,5 +11,6 @@ namespace Sheetsu\Interfaces;
 interface ConnectionInterface
 {
     function makeCall();
+
     function setConfig(array $config);
 }

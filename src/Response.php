@@ -7,22 +7,27 @@
  */
 
 namespace Sheetsu;
+
 use Sheetsu\Interfaces\ResponseInterface;
 use Sheetsu\ErrorHandler;
 
 class Response implements ResponseInterface
 {
-    private $curl;
+    private $http;
     private $errorHandler;
 
-    function __construct($curl) {
-        $this->curl = $curl;
-        $this->getErrorHandler();
+    function __construct($http)
+    {
+        $this->http = $http;
+        $this->setErrorHandler();
     }
 
-    private function getErrorHandler()
+    /**
+     * Uses static method of error handler to get an instance of it from its http client (curl object)
+     */
+    private function setErrorHandler()
     {
-        $this->errorHandler = ErrorHandler::checkForErrorsInCurl($this->curl);
+        $this->errorHandler = ErrorHandler::checkForErrorsInCurl($this->http);
     }
 
     public function getErrors()
@@ -30,7 +35,8 @@ class Response implements ResponseInterface
         return $this->errorHandler->getErrors();
     }
 
-    public function getError(){
+    public function getError()
+    {
         return $this->errorHandler->getFirstError();
     }
 
@@ -39,15 +45,18 @@ class Response implements ResponseInterface
         return $this->errorHandler->getExceptions();
     }
 
-    public function getException(){
-        return $this->errorHandler->getException();
+    public function getException()
+    {
+        return $this->errorHandler->getFirstException();
     }
 
-    public function getCollection(){
-        return new Collection($this->curl->response);
+    public function getCollection()
+    {
+        return new Collection($this->http->response);
     }
 
-    public function getModel(){
+    public function getModel()
+    {
         $collection = $this->getCollection();
         return $collection->getFirst();
     }

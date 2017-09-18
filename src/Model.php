@@ -6,14 +6,18 @@
  * @Author: Emiliano Zublena - https://github.com/emilianozublena
  * @Package: Sheetsu PHP Library - https://github.com/emilianozublena/sheetsu-php
  */
+
 namespace Sheetsu;
 
 use Sheetsu\Interfaces\ModelInterface;
 
 class Model implements ModelInterface
 {
-    function __construct($data) {
-        $this->_storeProperties($data);
+    function __construct($data = null)
+    {
+        if ($data !== null) {
+            $this->_storeProperties($data);
+        }
     }
 
     /**
@@ -21,7 +25,8 @@ class Model implements ModelInterface
      * data sent may be an associative array or a stdClass object
      * @param $data
      */
-    public function update($data){
+    public function update($data)
+    {
         $this->_storeProperties($data);
     }
 
@@ -30,7 +35,8 @@ class Model implements ModelInterface
      * @param $data
      * @return Model $instance
      */
-    static function create($data) {
+    static function create($data)
+    {
         return new Model($data);
     }
 
@@ -39,10 +45,11 @@ class Model implements ModelInterface
      * the $properties may came as an associative array or a stdClass object
      * @param $properties
      */
-    private function _storeProperties($properties) {
-        if(is_array($properties)) {
+    private function _storeProperties($properties)
+    {
+        if (is_array($properties)) {
             $this->_storePropertiesFromArray($properties);
-        }else{
+        } else {
             $this->_storePropertiesFromStdClass($properties);
         }
     }
@@ -51,8 +58,9 @@ class Model implements ModelInterface
      * Takes $properties as an associative array and saves to instantiated object.
      * @param array $properties
      */
-    private function _storePropertiesFromArray(array $properties){
-        foreach($properties as $property => &$value) {
+    private function _storePropertiesFromArray(array $properties)
+    {
+        foreach ($properties as $property => &$value) {
             $this->$property = &$value;
         }
     }
@@ -61,8 +69,9 @@ class Model implements ModelInterface
      * Takes $object as a stdClass object and saves its properties to the instantiated object.
      * @param $object
      */
-    private function _storePropertiesFromStdClass($object) {
-        foreach($object as $property => &$value) {
+    private function _storePropertiesFromStdClass($object)
+    {
+        foreach ($object as $property => &$value) {
             $this->$property = &$value;
         }
     }

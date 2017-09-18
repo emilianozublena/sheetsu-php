@@ -12,18 +12,22 @@ use Sheetsu\Model;
 
 class Collection implements CollectionInterface
 {
-    private $models;
+    private $models = [];
 
-    function __construct($curlResponse=null){
-        $this->_prepareCollectionFromJson($curlResponse);
+    function __construct($curlResponse = null)
+    {
+        if ($curlResponse !== null) {
+            $this->_prepareCollectionFromJson($curlResponse);
+        }
     }
 
     /**
      * Adds given implementation of Model to the collection.
      * @param Model $model
      */
-    public function add(Model $model){
-        if(!$this->_isModelSet($model)){
+    public function add(Model $model)
+    {
+        if (!$this->isModelSet($model)) {
             $this->models[] = $model;
         }
     }
@@ -32,8 +36,9 @@ class Collection implements CollectionInterface
      * Adds an associative array of Model implementations to the collection.
      * @param array $models
      */
-    public function addMultiple(array $models) {
-        foreach($models as $key => $model) {
+    public function addMultiple(array $models)
+    {
+        foreach ($models as $key => $model) {
             $this->add($model);
         }
     }
@@ -43,9 +48,10 @@ class Collection implements CollectionInterface
      * @param $key
      * @return bool
      */
-    public function delete($key){
+    public function delete($key)
+    {
         //reemplazar por exception?
-        if($this->_isKeySet($key)) {
+        if ($this->_isKeySet($key)) {
             unset($this->models[$key]);
             return true;
         }
@@ -57,7 +63,8 @@ class Collection implements CollectionInterface
      * @param $key
      * @return Model || null;
      */
-    public function get($key){
+    public function get($key)
+    {
         return $this->_isKeySet($key) ? $this->models[$key] : null;
     }
 
@@ -66,27 +73,47 @@ class Collection implements CollectionInterface
         return $this->_hasModels() ? $this->models[0] : null;
     }
 
-    private function _isModelSet(Model $model)
+    public function getAll()
     {
-        $key = $this->_getKeyFromModel($model);
-        return isset($this->models[$key]) && $model instanceof Model;
+        return $this->_hasModels() ? $this->models : null;
     }
 
-    private function _getKeyFromModel(Model $model){
-        foreach($this->models as $key => $storedModel) {
-            if($model===$storedModel) {
+    /**
+     * Checks if given model is set in current collection
+     * @param \Sheetsu\Model $model
+     * @return bool
+     */
+    public function isModelSet(Model $model)
+    {
+        if ($model instanceof Model) {
+            $key = $this->_getKeyFromModel($model);
+            return $this->_isKeySet($key);
+        }
+
+        return false;
+    }
+
+    private function _getKeyFromModel(Model $model)
+    {
+        if (count($this->models) == 0) {
+            return false;
+        }
+
+        foreach ($this->models as $key => $storedModel) {
+            if ($model === $storedModel) {
                 return $key;
             }
         }
     }
 
-    private function _isKeySet($key) {
+    private function _isKeySet($key)
+    {
         return isset($this->models[$key]);
     }
 
     private function _hasModels()
     {
-        return count($this->models)>0 && isset($this->models[0]);
+        return count($this->models) > 0 && isset($this->models[0]);
     }
 
     /**
@@ -97,17 +124,19 @@ class Collection implements CollectionInterface
     private function _prepareCollectionFromJson($json)
     {
         $arResponse = json_decode($json);
-        foreach($arResponse as $key => $model){
+        foreach ($arResponse as $key => $model) {
             $model = Model::create($model);
             $this->add($model);
         }
     }
 
-    public function _prepareCollectionToJson() {
+    public function _prepareCollectionToJson()
+    {
         return json_encode($this->models);
     }
 
-    public function getModels(){
+    public function getModels()
+    {
         return $this->models;
     }
 
@@ -116,7 +145,8 @@ class Collection implements CollectionInterface
      * @param $closure
      * @return array
      */
-    public function _doClosureForWholeCollection($closure){
+    public function _doClosureForWholeCollection($closure)
+    {
         return array_map($closure, $this->models);
     }
 }
