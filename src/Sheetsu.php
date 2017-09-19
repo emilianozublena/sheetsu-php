@@ -26,8 +26,19 @@ final class Sheetsu
     public function __construct($config = array())
     {
         $this->connection = new Connection($config);
-        $this->setSheetId($config['sheetId']);
+        $this->initialize($config['sheetId']);
+    }
+
+    /**
+     * Changes main sheetsuId and regenerates the sheetUrl. Allows method chaining
+     * @param $sheetId
+     * @return $this
+     */
+    public function initialize($sheetId)
+    {
+        $this->setSheetId($sheetId);
         $this->setSheetUrl();
+        return $this;
     }
 
     private function setSheetId($sheetId)
@@ -40,10 +51,27 @@ final class Sheetsu
         $this->sheetUrl = self::BASE_URL . $this->sheetId;
     }
 
-    public function sheet($sheetId)
+
+    /**
+     * Appends an active sheet to the main url. Allows method chaining
+     * @param $sheet
+     * @return $this
+     */
+    public function sheet($sheet)
     {
-        $this->setSheetId($sheetId);
-        $this->setSheetUrl();
+        if (trim($sheet) !== '') {
+            $this->sheetUrl .= '/sheets/' . trim($sheet);
+        }
+        return $this;
+    }
+
+    /**
+     * Reinitializes library so as to return to use the whole spreadsheet. Allows method chaining
+     * @return $this
+     */
+    public function whole()
+    {
+        $this->initialize($this->sheetId);
         return $this;
     }
 

@@ -52,7 +52,18 @@ $model = Model::create(['name' => 'Stewiw']);
 $response = $sheetsu->update('name', 'Peter', $model);
 print_r($response);
 
-//Changing active worksheet
-$response = $sheetsu->sheet('myNewSheetId')->read();
+//Change sheet id and whole spreadsheet with method chaining.
+$response = $sheetsu->initialize('myNewSheetId')->read();
+$collection = $response->getCollection();
+print_r($collection);
+
+//Make use of a specific sheet in next and all further calls
+$response = $sheetsu->sheet('sheetName')->read();
+$collection = $response->getCollection();
+print_r($collection);
+
+//Stop using specific sheet
+$sheetsu->sheet('sheet2');
+$response = $sheetsu->sheet('sheet2')->read();
 $collection = $response->getCollection();
 print_r($collection);

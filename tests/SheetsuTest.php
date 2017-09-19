@@ -113,12 +113,31 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response->getHttpStatus() == 204);
     }
 
-    public function testSheetChangesSheetIdAndSheetUrl()
+    public function testInitializeChangesSheetIdAndSheetUrl()
     {
         $sheetsu = new Sheetsu([
             'sheetId' => null
         ]);
-        $response = $sheetsu->sheet('dc31e735c9ce')->read();
+        $response = $sheetsu->initialize('dc31e735c9ce')->read();
+        $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
+    }
+
+    public function testSheetSetsSpecificSheet()
+    {
+        $sheetsu = new Sheetsu([
+            'sheetId' => 'dc31e735c9ce'
+        ]);
+        $response = $sheetsu->sheet('sheet2')->read();
+        $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
+    }
+
+    public function testWholeReinitializesLibrary()
+    {
+        $sheetsu = new Sheetsu([
+            'sheetId' => 'dc31e735c9ce'
+        ]);
+        $sheetsu->sheet('sheet2');
+        $response = $sheetsu->whole()->read();
         $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
     }
 

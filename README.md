@@ -161,6 +161,36 @@ To delete row(s), pass column name and its value which is used to find row(s).
 $response = $sheetsu->delete('name', 'Peter');
 ```
 
+### Change Active Sheet
+
+If you need to change the sheet you're working on, you can do it by using the sheet function and passing the new sheetsu id
+
+```php
+# Change active sheetsu to 'THIS'
+$sheetsu->sheet('THIS')
+```
+
+You can also chain this function with others, like so:
+```php
+# Change active sheetsu to 'THIS'
+$sheetsu->sheet('THIS')->read();
+```
+
+### Go back to using the whole spreadsheet again
+
+If you need to use the whole spreadsheet is easy:
+
+```php
+# Back to whole spreadsheet
+$sheetsu->whole()
+```
+
+You can also chain this function with others, like so:
+```php
+# Back to whole spreadsheet
+$sheetsu->whole()->read();
+```
+
 ### Response, Connection & Error Handling
 The Sheetsu PHP Library handles the connection through the Connection class. This class uses cURL for making connections and uses the Response class as returns.
 The Response object is the one responsible for giving the collections, models or errors (or any other response from the last call)
@@ -178,6 +208,7 @@ $firstException = $response->getException();
 ## TODO
 - [x] Define and implement ErrorHandler to leverage the final user from handling http status code's
 - [x] Make this repository work as package with Composer
-- [x] Create Unit Test with at least 80% coverage
+- [x] Create Unit Test with at least 80% coverage (currently in 91%)
 - [x] Add ignore_case to search
-- [ ] Define and implement search algorithm within Collections to leverage calls to the api's endpoint
+- [x] Add a way to manage the active sheet used
+- [ ] Make class agnostic in such a way that Collection & Model classes are replaceable for others (or maybe for a ORM like Eloquent)
