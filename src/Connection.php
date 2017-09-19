@@ -48,7 +48,10 @@ class Connection implements ConnectionInterface
         if ($this->_isValidCall()) {
             $method = $this->config['method'];
             if ($this->_hasLimit()) {
-                $this->_prepareQueryParams();
+                $this->_prepareLimitInQueryParams();
+            }
+            if ($this->_hasIgnoreCase()) {
+                $this->_prepareIgnoreCaseInQueryParams();
             }
             if ($this->_hasQueryParams()) {
                 $this->_prepareUrlForCall();
@@ -74,10 +77,15 @@ class Connection implements ConnectionInterface
         return isset($this->config['method']) && isset($this->config['url']);
     }
 
+    private function _hasLimit()
+    {
+        return isset($this->config['limit']);
+    }
+
     /**
      * Checks for limit and offset in params and sets it as queryParams
      */
-    private function _prepareQueryParams()
+    private function _prepareLimitInQueryParams()
     {
         if ($this->config['limit'] > 0) {
             $this->config['queryParams']['limit'] = $this->config['limit'];
@@ -89,9 +97,14 @@ class Connection implements ConnectionInterface
         unset($this->config['offset']);
     }
 
-    private function _hasLimit()
+    private function _hasIgnoreCase()
     {
-        return isset($this->config['limit']);
+        return isset($this->config['ignore_case']);
+    }
+
+    private function _prepareIgnoreCaseInQueryParams()
+    {
+        $this->config['queryParams']['ignore_case'] = $this->config['ignore_case'];
     }
 
     /**

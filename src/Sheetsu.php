@@ -58,16 +58,18 @@ final class Sheetsu
      * @param array $conditions
      * @param int $limit
      * @param int $offset
+     * @param string $ignoreCase
      * @return Response
      */
-    public function search(array $conditions, $limit = 0, $offset = 0)
+    public function search(array $conditions, $limit = 0, $offset = 0, $ignoreCase = false)
     {
         $connectionConfig = [
-            'method' => 'get',
-            'url'    => $this->sheetUrl . '/search',
-            'params' => $conditions,
-            'limit'  => $limit,
-            'offset' => $offset
+            'method'      => 'get',
+            'url'         => $this->sheetUrl . '/search',
+            'params'      => $conditions,
+            'limit'       => $limit,
+            'offset'      => $offset,
+            'ignore_case' => $ignoreCase
         ];
 
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
@@ -131,7 +133,8 @@ final class Sheetsu
      * @param $object
      * @return mixed
      */
-    private function _getUpdateParamsFromObject($object) {
+    private function _getUpdateParamsFromObject($object)
+    {
         if ($this->_isValidModelInterface($object)) {
             return $object->_prepareModelAsJson();
         } else {

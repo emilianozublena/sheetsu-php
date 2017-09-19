@@ -49,7 +49,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $sheetsu = new Sheetsu([
             'sheetId' => $config['sheetId']
         ]);
-        $response = $sheetsu->search($config['conditions'], $config['limit'], $config['offset']);
+        $response = $sheetsu->search($config['conditions'], $config['limit'], $config['offset'], $config['ignore_case']);
         $collection = $response->getCollection();
         $this->assertTrue($response instanceof Response && $collection instanceof Collection);
     }
@@ -130,25 +130,28 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'method'     => 'get',
-                    'sheetId'    => 'dc31e735c9ce',
-                    'limit'      => 0,
-                    'offset'     => 0,
-                    'conditions' => ['name' => 'Peter']
+                    'method'      => 'get',
+                    'sheetId'     => 'dc31e735c9ce',
+                    'limit'       => 0,
+                    'offset'      => 0,
+                    'conditions'  => ['name' => 'Peter'],
+                    'ignore_case' => false
                 ],
                 [
-                    'method'     => 'get',
-                    'sheetId'    => 'dc31e735c9ce',
-                    'limit'      => 1,
-                    'offset'     => 0,
-                    'conditions' => ['name' => 'Peter']
+                    'method'      => 'get',
+                    'sheetId'     => 'dc31e735c9ce',
+                    'limit'       => 1,
+                    'offset'      => 0,
+                    'conditions'  => ['name' => 'peter'],
+                    'ignore_case' => true
                 ],
                 [
-                    'method'     => 'get',
-                    'sheetId'    => 'dc31e735c9ce',
-                    'limit'      => 1,
-                    'offset'     => 1,
-                    'conditions' => ['name' => 'Peter']
+                    'method'      => 'get',
+                    'sheetId'     => 'dc31e735c9ce',
+                    'limit'       => 1,
+                    'offset'      => 1,
+                    'conditions'  => ['name' => 'Peter'],
+                    'ignore_case' => false
                 ]
             ]
         ];
