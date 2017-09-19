@@ -13,9 +13,7 @@ use Sheetsu\Collection;
 use Sheetsu\Model;
 
 $sheetsu = new Sheetsu([
-    'sheetId' => 'INSERT_YOUR_SHEET_ID',
-    'key' => 'INSERT_YOUR_API_KEY',
-    'secret' => 'INSERT_YOUR_API_SECRET'
+    'sheetId' => 'INSERT_YOUR_SHEET_ID'
 ]);
 //Creating new rows through collections
 $collection = new Collection();
@@ -53,3 +51,8 @@ print_r($response);
 $model = Model::create(['name' => 'Stewiw']);
 $response = $sheetsu->update('name', 'Peter', $model);
 print_r($response);
+
+//Changing active worksheet
+$response = $sheetsu->sheet('myNewSheetId')->read();
+$collection = $response->getCollection();
+print_r($collection);

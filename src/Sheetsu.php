@@ -27,12 +27,24 @@ final class Sheetsu
     {
         $this->connection = new Connection($config);
         $this->setSheetId($config['sheetId']);
+        $this->setSheetUrl();
+    }
+
+    private function setSheetId($sheetId)
+    {
+        $this->sheetId = $sheetId;
+    }
+
+    private function setSheetUrl()
+    {
         $this->sheetUrl = self::BASE_URL . $this->sheetId;
     }
 
-    public function setSheetId($sheetId)
+    public function sheet($sheetId)
     {
-        $this->sheetId = $sheetId;
+        $this->setSheetId($sheetId);
+        $this->setSheetUrl();
+        return $this;
     }
 
     /**
@@ -66,7 +78,7 @@ final class Sheetsu
         $connectionConfig = [
             'method'      => 'get',
             'url'         => $this->sheetUrl . '/search',
-            'params'      => $conditions,
+            'conditions'  => $conditions,
             'limit'       => $limit,
             'offset'      => $offset,
             'ignore_case' => $ignoreCase

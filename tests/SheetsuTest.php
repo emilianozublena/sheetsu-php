@@ -49,9 +49,11 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $sheetsu = new Sheetsu([
             'sheetId' => $config['sheetId']
         ]);
-        $response = $sheetsu->search($config['conditions'], $config['limit'], $config['offset'], $config['ignore_case']);
-        $collection = $response->getCollection();
-        $this->assertTrue($response instanceof Response && $collection instanceof Collection);
+        $response = $sheetsu->search($config['conditions'], $config['limit'], $config['offset'],
+            $config['ignore_case']);
+        $model = $response->getModel();
+        $this->assertEquals($config['conditions']['name'], $model->name);
+        //$this->assertTrue($response instanceof Response && $collection instanceof Collection);
     }
 
     /**
@@ -109,6 +111,15 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         ]);
         $response = $sheetsu->delete('name', 'Tupac');
         $this->assertTrue($response->getHttpStatus() == 204);
+    }
+
+    public function testSheetChangesSheetIdAndSheetUrl()
+    {
+        $sheetsu = new Sheetsu([
+            'sheetId' => null
+        ]);
+        $response = $sheetsu->sheet('dc31e735c9ce')->read();
+        $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
     }
 
     public function invalidConfigProvider()

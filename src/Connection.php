@@ -53,6 +53,9 @@ class Connection implements ConnectionInterface
             if ($this->_hasIgnoreCase()) {
                 $this->_prepareIgnoreCaseInQueryParams();
             }
+            if ($this->_hasConditions()) {
+                $this->_prepareConditionsInQueryParams();
+            }
             if ($this->_hasQueryParams()) {
                 $this->_prepareUrlForCall();
             }
@@ -63,7 +66,7 @@ class Connection implements ConnectionInterface
             $this->_setParametersInConfig();
 
             $this->http->$method(
-                $this->config['url'] . '/',
+                $this->config['url'],
                 $this->config['params'],
                 true
             );
@@ -97,14 +100,38 @@ class Connection implements ConnectionInterface
         unset($this->config['offset']);
     }
 
+    /**
+     * Checks if ignore_case is set
+     * @return bool
+     */
     private function _hasIgnoreCase()
     {
         return isset($this->config['ignore_case']);
     }
 
+    /**
+     * Puts ignore_case in queryParams
+     */
     private function _prepareIgnoreCaseInQueryParams()
     {
         $this->config['queryParams']['ignore_case'] = $this->config['ignore_case'];
+    }
+
+    /**
+     * Checks if conditions is set
+     * @return bool
+     */
+    private function _hasConditions()
+    {
+        return isset($this->config['conditions']);
+    }
+
+    /**
+     * Merges conditions with queryParams
+     */
+    private function _prepareConditionsInQueryParams()
+    {
+        $this->config['queryParams'] = array_merge($this->config['queryParams'], $this->config['conditions']);
     }
 
     /**
