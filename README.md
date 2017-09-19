@@ -127,6 +127,15 @@ $response = $sheetsu->search([
     'Score'         => '42'
 ], 2, 0);
 $collection = $response->getCollection();
+
+# Get first two row where column 'First name' is 'Peter',
+# column 'Score' is '42' from sheet named "Sheet3"
+# with ignore case
+$response = $sheetsu->search([
+    'First name'    => 'Peter',
+    'Score'         => '42'
+], 2, 0, true);
+$collection = $response->getCollection();
 ```
 
 ### Update
@@ -169,4 +178,6 @@ $firstException = $response->getException();
 ## TODO
 - [x] Define and implement ErrorHandler to leverage the final user from handling http status code's
 - [x] Make this repository work as package with Composer
+- [x] Create Unit Test with at least 80% coverage
+- [x] Add ignore_case to search
 - [ ] Define and implement search algorithm within Collections to leverage calls to the api's endpoint
