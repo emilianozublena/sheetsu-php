@@ -18,6 +18,8 @@ interface ResponseInterface
 
     function getException();
 
+    function getHttpStatus();
+
     function getCollection();
 
     function getModel();

@@ -24,7 +24,16 @@ $collection->addMultiple([
     Model::create(['name' => 'Steve'])
 ]);
 $response = $sheetsu->create($collection);
-print_r($response);
+//through array of models
+$response = $sheetsu->create([
+    Model::create(['name' => 'Peter']),
+    Model::create(['name' => 'Steve'])
+]);
+//through array of arrays
+$response = $sheetsu->create([
+    ['name' => 'Peter'],
+    ['name' => 'Steve']
+]);
 
 //Get whole sheet
 $response = $sheetsu->read();
@@ -41,6 +50,6 @@ $response = $sheetsu->delete('name', 'Steve');
 print_r($response);
 
 //Updating rows matching given criteria with data of given Model
-$model = Row::create(['name' => 'Stewiw']);
+$model = Model::create(['name' => 'Stewiw']);
 $response = $sheetsu->update('name', 'Peter', $model);
 print_r($response);

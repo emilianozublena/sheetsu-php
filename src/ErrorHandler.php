@@ -57,8 +57,8 @@ final class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Checks the http_status_code and assumes that our api is sending a error in the response with the error message
-     * Defines a closure and gives it to the abstracted funcion of try/catch block
+     * Checks the http_status_code and assumes that our api is sending an error in the response with the error message
+     * Defines a closure and gives it to the abstracted function of try/catch block
      * @param $curl
      * @return ErrorHandler
      */
@@ -66,8 +66,13 @@ final class ErrorHandler implements ErrorHandlerInterface
     {
         $checkFunction = function () use (&$curl) {
             if ($curl->http_status_code >= 400) {
-                $errorResponse = json_decode($curl->response);
-                throw new ErrorException($errorResponse->error);
+                if(!$curl->response || $curl->response == '') {
+                    $message = $curl->http_status_code;
+                }else {
+                    $errorResponse = json_decode($curl->response);
+                    $message = $errorResponse->error;
+                }
+                throw new ErrorException($message);
             }
         };
 

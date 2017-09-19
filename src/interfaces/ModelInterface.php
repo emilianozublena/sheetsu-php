@@ -14,5 +14,7 @@ interface ModelInterface
 
     function update($data);
 
+    function _prepareModelAsArray();
+
     function _prepareModelAsJson();
 }

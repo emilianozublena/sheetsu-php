@@ -17,6 +17,12 @@ final class Sheetsu
     private $sheetId;
     private $sheetUrl;
 
+    /**
+     * Sheetsu constructor. Instantiates Connection object with given config
+     * Sets sheetsu id for url
+     * sets final url
+     * @param array $config
+     */
     public function __construct($config = array())
     {
         $this->connection = new Connection($config);
@@ -29,6 +35,12 @@ final class Sheetsu
         $this->sheetId = $sheetId;
     }
 
+    /**
+     * Asks full list of rows from api with given limit and offset
+     * @param int $limit
+     * @param int $offset
+     * @return Response
+     */
     public function read($limit = 0, $offset = 0)
     {
         $connectionConfig = [
@@ -41,6 +53,13 @@ final class Sheetsu
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
     }
 
+    /**
+     * Search's for given conditions in spreadsheet. It accepts an associative array to search for ie: ['name' => 'Peter']
+     * @param array $conditions
+     * @param int $limit
+     * @param int $offset
+     * @return Response
+     */
     public function search(array $conditions, $limit = 0, $offset = 0)
     {
         $connectionConfig = [
@@ -54,6 +73,11 @@ final class Sheetsu
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
     }
 
+    /**
+     * Creates given data in spreadsheet. Data may be a Model, Collection or Array
+     * @param $insertData
+     * @return Response
+     */
     public function create($insertData)
     {
         $connectionConfig = [
@@ -61,15 +85,35 @@ final class Sheetsu
             'url'    => $this->sheetUrl
         ];
 
-        if ($insertData instanceof CollectionInterface) {
-            $connectionConfig['params'] = '{"rows":' . $insertData->_prepareCollectionToJson() . '}';
-        } else {
-            $connectionConfig['params'] = ['rows' => $insertData];
-        }
+        $connectionConfig['params'] = $this->_getParamsFromDataByClassInstance($insertData);
 
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
     }
 
+    /**
+     * Prepares data for CREATE method
+     * @param $insertData
+     * @return string
+     */
+    private function _getParamsFromDataByClassInstance($insertData)
+    {
+        if ($this->_isValidCollectionInterface($insertData)) {
+            return '{"rows":' . $insertData->_prepareCollectionToJson() . '}';
+        } elseif ($this->_isValidModelInterface($insertData)) {
+            return json_encode(['rows' => $insertData->_prepareModelAsArray()]);
+        } else {
+            return json_encode(['rows' => $insertData]);
+        }
+    }
+
+    /**
+     * Updates matching $columnName + $value pair with given $updateData criteria
+     * @param $columnName
+     * @param $value
+     * @param $updateData
+     * @param bool $forcePutMethod
+     * @return Response
+     */
     public function update($columnName, $value, $updateData, $forcePutMethod = false)
     {
         $connectionConfig = [
@@ -77,15 +121,30 @@ final class Sheetsu
             'url'    => $this->sheetUrl . '/' . $columnName . '/' . $value
         ];
 
-        if ($updateData instanceof ModelInterface) {
-            $connectionConfig['params'] = $updateData->_prepareModelAsJson();
-        } else {
-            $connectionConfig['params'] = $updateData;
-        }
+        $connectionConfig['params'] = $this->_getUpdateParamsFromObject($updateData);
 
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
     }
 
+    /**
+     * Returns params for update function. If its a model interface, casts it as json string object
+     * @param $object
+     * @return mixed
+     */
+    private function _getUpdateParamsFromObject($object) {
+        if ($this->_isValidModelInterface($object)) {
+            return $object->_prepareModelAsJson();
+        } else {
+            return $object;
+        }
+    }
+
+    /**
+     * Allows to delete given $columnName + $value pair from api.
+     * @param $columnName
+     * @param $value
+     * @return Response
+     */
     public function delete($columnName, $value)
     {
         $connectionConfig = [
@@ -96,6 +155,21 @@ final class Sheetsu
         return $this->_setConnectionConfigAndMakeCall($connectionConfig);
     }
 
+    private function _isValidCollectionInterface($object)
+    {
+        return $object !== null && $object instanceof CollectionInterface;
+    }
+
+    private function _isValidModelInterface($object)
+    {
+        return $object !== null && $object instanceof ModelInterface;
+    }
+
+    /**
+     * Sets config in Connection class and makes the call ;)
+     * @param array $connectionConfig
+     * @return Response
+     */
     private function _setConnectionConfigAndMakeCall(array $connectionConfig)
     {
         $this->connection->setConfig($connectionConfig);

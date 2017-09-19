@@ -49,7 +49,7 @@ class Model implements ModelInterface
     {
         if (is_array($properties)) {
             $this->_storePropertiesFromArray($properties);
-        } else {
+        } elseif($properties instanceof \stdClass) {
             $this->_storePropertiesFromStdClass($properties);
         }
     }
@@ -69,7 +69,7 @@ class Model implements ModelInterface
      * Takes $object as a stdClass object and saves its properties to the instantiated object.
      * @param $object
      */
-    private function _storePropertiesFromStdClass($object)
+    private function _storePropertiesFromStdClass(\stdClass $object)
     {
         foreach ($object as $property => &$value) {
             $this->$property = &$value;
@@ -77,7 +77,22 @@ class Model implements ModelInterface
     }
 
     /**
-     * Returns the instantiated object as a json object.
+     * Returns the instantiated object as array.
+     * @return array
+     */
+    public function _prepareModelAsArray()
+    {
+        $arObject = [];
+        $object = $this;
+        foreach ($object as $property => $value) {
+            $arObject[$property] = $value;
+        }
+
+        return $arObject;
+    }
+
+    /**
+     * Returns the instantiated object as a valid json string.
      * @return string
      */
     public function _prepareModelAsJson()

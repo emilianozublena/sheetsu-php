@@ -23,6 +23,8 @@ interface CollectionInterface
 
     function getFirst();
 
+    function getModels();
+
     function _prepareCollectionToJson();
 
     function _doClosureForWholeCollection($closure);
