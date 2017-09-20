@@ -145,8 +145,18 @@ class Collection implements CollectionInterface
      * @param $closure
      * @return array
      */
-    public function _doClosureForWholeCollection($closure)
+    public function map($closure)
     {
         return array_map($closure, $this->models);
+    }
+
+    /**
+     * This function expects a closure or anon function to exec for every model in the collection. and sets it back
+     * @param $closure
+     * @return array
+     */
+    public function transform($closure)
+    {
+        $this->models = array_map($closure, $this->models);
     }
 }

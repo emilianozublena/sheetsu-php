@@ -52,8 +52,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $response = $sheetsu->search($config['conditions'], $config['limit'], $config['offset'],
             $config['ignore_case']);
         $model = $response->getModel();
-        $this->assertEquals($config['conditions']['name'], $model->name);
-        //$this->assertTrue($response instanceof Response && $collection instanceof Collection);
+        $this->assertEquals(strtolower($config['conditions']['name']), strtolower($model->name));
     }
 
     /**
@@ -109,7 +108,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $sheetsu = new Sheetsu([
             'sheetId' => 'dc31e735c9ce'
         ]);
-        $response = $sheetsu->delete('name', 'Tupac');
+        $response = $sheetsu->delete('name', 'Atahualpa');
         $this->assertTrue($response->getHttpStatus() == 204);
     }
 
@@ -118,7 +117,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $sheetsu = new Sheetsu([
             'sheetId' => null
         ]);
-        $response = $sheetsu->initialize('dc31e735c9ce')->read();
+        $response = $sheetsu->initialize(['sheetId' => 'dc31e735c9ce'])->read();
         $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
     }
 
@@ -166,7 +165,9 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'offset'      => 0,
                     'conditions'  => ['name' => 'Peter'],
                     'ignore_case' => false
-                ],
+                ]
+            ],
+            [
                 [
                     'method'      => 'get',
                     'sheetId'     => 'dc31e735c9ce',
@@ -174,7 +175,9 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'offset'      => 0,
                     'conditions'  => ['name' => 'peter'],
                     'ignore_case' => true
-                ],
+                ]
+            ],
+            [
                 [
                     'method'      => 'get',
                     'sheetId'     => 'dc31e735c9ce',
@@ -203,14 +206,18 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                         ['id' => 25, 'name' => 'John', 'score' => 'Baptist'],
                         ['id' => 26, 'name' => 'Atahualpa', 'score' => 'Yupanqui']
                     ]
-                ],
+                ]
+            ],
+            [
                 [
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
                     'insertData' => new Model(
                         ['id' => 25, 'name' => 'John', 'score' => 'Baptist']
                     )
-                ],
+                ]
+            ],
+            [
                 [
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
@@ -229,6 +236,14 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'sheetId'    => 'dc31e735c9ce',
                     'name'       => 'Atahualpa',
                     'insertData' => Model::create(['name' => 'Tupac'])
+                ]
+            ],
+            [
+                [
+                    'method'     => 'put',
+                    'sheetId'    => 'dc31e735c9ce',
+                    'name'       => 'Tupac',
+                    'insertData' => ['name' => 'Atahualpa']
                 ]
             ]
         ];

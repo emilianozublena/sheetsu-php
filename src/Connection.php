@@ -64,7 +64,6 @@ class Connection implements ConnectionInterface
             }
 
             $this->_setParametersInConfig();
-
             $this->http->$method(
                 $this->config['url'],
                 $this->config['params'],

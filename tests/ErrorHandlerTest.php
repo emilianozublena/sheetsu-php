@@ -25,6 +25,16 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider arExceptionsProvider
      * @param $exceptions
      */
+    public function testCreateCreatesErrorHandlerObject($exceptions)
+    {
+        $errorHandler = ErrorHandler::create($exceptions);
+        $this->assertTrue($errorHandler->getFirstException() instanceof \ErrorException);
+    }
+
+    /**
+     * @dataProvider arExceptionsProvider
+     * @param $exceptions
+     */
     public function testGetErrorsReturnsArrayOfErrors($exceptions)
     {
         $errorHandler = new ErrorHandler($exceptions);
@@ -96,7 +106,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
                 $exception,
                 $exception,
                 $exception
-            ]
+            ],
+            [[$exception, $exception]]
         ];
     }
 
@@ -152,9 +163,13 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             },
             "error": "This is a message"
         }';
+        $three = new \stdClass();
+        $three->http_status_code = 500;
+        $three->response = '';
         return [
             [$one],
-            [$two]
+            [$two],
+            [$three]
         ];
     }
 }

@@ -37,6 +37,20 @@ $sheetsu = new Sheetsu([
 ]);
 ```
 
+### Initialize library
+
+If you need, you can reinitialize (or initialize) the library after creation
+
+```php
+# Initialize after creation
+$sheetsu = new Sheetsu();
+$sheetsu->initialize([
+    'sheetId'   => 'sheetId',
+    'key'       => 'key',
+    'secret'    => 'secret'
+])
+```
+
 ### Collection-Model
 
 The Sheetsu PHP Library comes with a small implementation of a [Collection abstract data type](https://en.wikipedia.org/wiki/Collection_(abstract_data_type)).
@@ -190,6 +204,7 @@ You can also chain this function with others, like so:
 # Back to whole spreadsheet
 $sheetsu->whole()->read();
 ```
+
 
 ### Response, Connection & Error Handling
 The Sheetsu PHP Library handles the connection through the Connection class. This class uses cURL for making connections and uses the Response class as returns.

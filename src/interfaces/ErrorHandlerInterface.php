@@ -19,9 +19,9 @@ interface ErrorHandlerInterface
 
     public function getFirstException();
 
-    static function tryClosure($closure);
+    static function tryStatic($data, $arguments);
 
-    static function create(ErrorException $exception);
+    static function create($exception);
 
     static function checkForErrorsInCurl($curl);
 }

@@ -27,5 +27,7 @@ interface CollectionInterface
 
     function _prepareCollectionToJson();
 
-    function _doClosureForWholeCollection($closure);
+    function map($closure);
+
+    function transform($closure);
 }

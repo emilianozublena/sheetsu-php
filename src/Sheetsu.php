@@ -25,28 +25,48 @@ final class Sheetsu
      */
     public function __construct($config = array())
     {
-        $this->connection = new Connection($config);
-        $this->initialize($config['sheetId']);
+        $this->initialize($config);
     }
 
     /**
-     * Changes main sheetsuId and regenerates the sheetUrl. Allows method chaining
-     * @param $sheetId
+     * Reinstantiates Connection object and changes main sheetsuId and regenerates the sheetUrl. Allows method chaining
+     * @param array $config
      * @return $this
      */
-    public function initialize($sheetId)
+    public function initialize(array $config)
     {
-        $this->setSheetId($sheetId);
-        $this->setSheetUrl();
+        if($this->_needsNewConnectionObject($config)) {
+            $this->_setConnection($config);
+        }
+        $this->_setSheetId($config['sheetId']);
+        $this->_setSheetUrl();
         return $this;
     }
 
-    private function setSheetId($sheetId)
+    private function _needsNewConnectionObject(array $config)
+    {
+        return (
+            isset($config['key']) && isset($config['secret']) ||
+            isset($config['forceNewConnection']) && $config['forceNewConnection'] === true ||
+            !$this->connection instanceof Connection
+        );
+    }
+
+    /**
+     * Creates new Connection object with given config.
+     * @param array $config
+     */
+    private function _setConnection(array $config)
+    {
+        $this->connection = new Connection($config);
+    }
+
+    private function _setSheetId($sheetId)
     {
         $this->sheetId = $sheetId;
     }
 
-    private function setSheetUrl()
+    private function _setSheetUrl()
     {
         $this->sheetUrl = self::BASE_URL . $this->sheetId;
     }
@@ -60,7 +80,7 @@ final class Sheetsu
     public function sheet($sheet)
     {
         if (trim($sheet) !== '') {
-            $this->sheetUrl .= '/sheets/' . trim($sheet);
+            $this->sheetUrl .= 'sheets/' . trim($sheet);
         }
         return $this;
     }
@@ -71,7 +91,7 @@ final class Sheetsu
      */
     public function whole()
     {
-        $this->initialize($this->sheetId);
+        $this->initialize(['sheetId' => $this->sheetId]);
         return $this;
     }
 
@@ -142,7 +162,7 @@ final class Sheetsu
         if ($this->_isValidCollectionInterface($insertData)) {
             return '{"rows":' . $insertData->_prepareCollectionToJson() . '}';
         } elseif ($this->_isValidModelInterface($insertData)) {
-            return json_encode(['rows' => $insertData->_prepareModelAsArray()]);
+            return json_encode($insertData->_prepareModelAsArray());
         } else {
             return json_encode(['rows' => $insertData]);
         }
@@ -178,7 +198,7 @@ final class Sheetsu
         if ($this->_isValidModelInterface($object)) {
             return $object->_prepareModelAsJson();
         } else {
-            return $object;
+            return json_encode($object);
         }
     }
 
@@ -200,12 +220,12 @@ final class Sheetsu
 
     private function _isValidCollectionInterface($object)
     {
-        return $object !== null && $object instanceof CollectionInterface;
+        return $object !== null && is_subclass_of($object, '\Sheetsu\Interfaces\CollectionInterface');
     }
 
     private function _isValidModelInterface($object)
     {
-        return $object !== null && $object instanceof ModelInterface;
+        return $object !== null && is_subclass_of($object, '\Sheetsu\Interfaces\ModelInterface');
     }
 
     /**

@@ -15,6 +15,7 @@ use Sheetsu\Model;
 $sheetsu = new Sheetsu([
     'sheetId' => 'INSERT_YOUR_SHEET_ID'
 ]);
+
 //Creating new rows through collections
 $collection = new Collection();
 $collection->addMultiple([
@@ -22,6 +23,7 @@ $collection->addMultiple([
     Model::create(['name' => 'Steve'])
 ]);
 $response = $sheetsu->create($collection);
+
 //through array of models
 $response = $sheetsu->create([
     Model::create(['name' => 'Peter']),

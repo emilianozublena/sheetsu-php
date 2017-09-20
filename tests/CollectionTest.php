@@ -31,7 +31,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $collection = new Collection();
         $collection->addMultiple($multipleSets);
         $models = $collection->getAll();
-        foreach($models as $model) {
+        foreach ($models as $model) {
             $this->assertTrue($collection->isModelSet($model));
         }
     }
@@ -56,7 +56,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $collection->add($model);
         $getModel = $collection->get(0);
 
-        $this->assertTrue($getModel instanceof  Model);
+        $this->assertTrue($getModel instanceof Model);
     }
 
     /**
@@ -82,6 +82,36 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($collection->_prepareCollectionToJson() !== false);
     }
 
+    /**
+     * @dataProvider multipleSetsProvider
+     */
+    /*public function testMapAddsKeyToAllModels($multipleSets)
+    {
+        $collection = new Collection();
+        $collection->addMultiple($multipleSets);
+        $newCollection = $collection->map(function($item){
+            $item->test = true;
+        });
+        foreach($newCollection->getModels() as $model) {
+            $this->assertTrue(isset($model->test) && $model->test === true);
+        }
+    }
+*/
+    /**
+     * @dataProvider multipleSetsProvider
+     */
+  /*  public function testTransformAddsKeyToAllModelsAndSetsItBack($multipleSets)
+    {
+        $collection = new Collection();
+        $collection->addMultiple($multipleSets);
+        $collection->transform(function($item){
+            $item->test = true;
+        });
+        foreach($collection->getModels() as $model) {
+            $this->assertTrue(isset($model->test) && $model->test === true);
+        }
+    }
+*/
     public function multipleSetsProvider()
     {
         return [
