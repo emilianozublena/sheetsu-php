@@ -226,4 +226,5 @@ $firstException = $response->getException();
 - [x] Create Unit Test with at least 80% coverage (currently in 91%)
 - [x] Add ignore_case to search
 - [x] Add a way to manage the active sheet used
+- [ ] Create mock objects for tests
 - [ ] Make class agnostic in such a way that Collection & Model classes are replaceable for others (or maybe for a ORM like Eloquent)
