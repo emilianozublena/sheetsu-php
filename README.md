@@ -220,6 +220,13 @@ $exceptions = $response->getExceptions();
 $firstException = $response->getException();
 ```
 
+### Unit Testing with PHPUnit
+This library has above 97% of code coverage. Some of the test are not using mock objects, this is in our to-do list and hope we'll be doing it so.
+The tests are prepared to be used with PHPUnit and the test suite is configured via XML, so you'll only need to execute PHPUnit in your forked version of this repo like so:
+```shell
+./vendor/bin/phpunit
+```
+
 ## TODO
 - [x] Define and implement ErrorHandler to leverage the final user from handling http status code's
 - [x] Make this repository work as package with Composer

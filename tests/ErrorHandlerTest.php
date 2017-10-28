@@ -113,63 +113,41 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function curlProvider()
     {
-        $one = new \stdClass();
-        $one->http_status_code = 401;
-        $one->response = '{
+        $fourhundred = new \stdClass();
+        $fourhundred->http_status_code = 400;
+        $fourhundred->response = '{
             "glossary": {
                 "title": "example glossary",
-                "GlossDiv": {
-                    "title": "S",
-                    "GlossList": {
-                        "GlossEntry": {
-                            "ID": "SGML",
-                            "SortAs": "SGML",
-                            "GlossTerm": "Standard Generalized Markup Language",
-                            "Acronym": "SGML",
-                            "Abbrev": "ISO 8879:1986",
-                            "GlossDef": {
-                                "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                                "GlossSeeAlso": ["GML", "XML"]
-                            },
-                            "GlossSee": "markup"
-                        }
-                    }
-                }
+                "resume": "something"
             },
             "error": "This is a message"
         }';
-        $two = new \stdClass();
-        $two->http_status_code = 500;
-        $two->response = '{
+        $fourhundredone = new \stdClass();
+        $fourhundredone->http_status_code = 401;
+        $fourhundredone->response = '{
             "glossary": {
                 "title": "example glossary",
-                "GlossDiv": {
-                    "title": "S",
-                    "GlossList": {
-                        "GlossEntry": {
-                            "ID": "SGML",
-                            "SortAs": "SGML",
-                            "GlossTerm": "Standard Generalized Markup Language",
-                            "Acronym": "SGML",
-                            "Abbrev": "ISO 8879:1986",
-                            "GlossDef": {
-                                "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                                "GlossSeeAlso": ["GML", "XML"]
-                            },
-                            "GlossSee": "markup"
-                        }
-                    }
-                }
+                "resume": "something"
             },
             "error": "This is a message"
         }';
-        $three = new \stdClass();
-        $three->http_status_code = 500;
-        $three->response = '';
+        $fivehundred = new \stdClass();
+        $fivehundred->http_status_code = 500;
+        $fivehundred->response = '{
+            "glossary": {
+                "title": "example glossary",
+                "resume": "something"
+            },
+            "error": "This is a message"
+        }';
+        $fivehundredempty = new \stdClass();
+        $fivehundredempty->http_status_code = 500;
+        $fivehundredempty->response = '';
         return [
-            [$one],
-            [$two],
-            [$three]
+            'error 400'                    => [$fourhundred],
+            'error 401'                    => [$fourhundredone],
+            'error 500'                    => [$fivehundred],
+            'error 500 con response vacío' => [$fivehundredempty]
         ];
     }
 }
