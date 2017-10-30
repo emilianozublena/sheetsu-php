@@ -113,41 +113,23 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function curlProvider()
     {
-        $fourhundred = new \stdClass();
-        $fourhundred->http_status_code = 400;
-        $fourhundred->response = '{
-            "glossary": {
-                "title": "example glossary",
-                "resume": "something"
-            },
-            "error": "This is a message"
-        }';
-        $fourhundredone = new \stdClass();
-        $fourhundredone->http_status_code = 401;
-        $fourhundredone->response = '{
-            "glossary": {
-                "title": "example glossary",
-                "resume": "something"
-            },
-            "error": "This is a message"
-        }';
-        $fivehundred = new \stdClass();
-        $fivehundred->http_status_code = 500;
-        $fivehundred->response = '{
-            "glossary": {
-                "title": "example glossary",
-                "resume": "something"
-            },
-            "error": "This is a message"
-        }';
-        $fivehundredempty = new \stdClass();
-        $fivehundredempty->http_status_code = 500;
-        $fivehundredempty->response = '';
+        $fourhundred = $this->createResponseObject(400, '{"glossary": {"title": "example glossary","resume": "something"},"error": "This is a message"}');
+        $fourhundredone = $this->createResponseObject(401, '{"glossary": {"title": "example glossary","resume": "something"},"error": "This is a message"}');
+        $fivehundred = $this->createResponseObject(500, '{"glossary": {"title": "example glossary","resume": "something"},"error": "This is a message"}');
+        $fivehundredempty = $this->createResponseObject(401, '');
         return [
             'error 400'                    => [$fourhundred],
             'error 401'                    => [$fourhundredone],
             'error 500'                    => [$fivehundred],
             'error 500 con response vacío' => [$fivehundredempty]
         ];
+    }
+
+    private function createResponseObject($httpStatusCode, $response)
+    {
+        $object = new \stdClass();
+        $object->http_status_code = $httpStatusCode;
+        $object->response = $response;
+        return $object;
     }
 }
