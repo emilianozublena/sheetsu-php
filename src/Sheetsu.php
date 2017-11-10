@@ -71,6 +71,11 @@ final class Sheetsu
         $this->sheetUrl = self::BASE_URL . $this->sheetId;
     }
 
+    public function _getSheetUrl()
+    {
+        return $this->sheetUrl;
+    }
+
 
     /**
      * Appends an active sheet to the main url. Allows method chaining
@@ -80,7 +85,7 @@ final class Sheetsu
     public function sheet($sheet)
     {
         if (trim($sheet) !== '') {
-            $this->sheetUrl .= 'sheets/' . trim($sheet);
+            $this->sheetUrl .= '/sheets/' . trim($sheet);
         }
         return $this;
     }
