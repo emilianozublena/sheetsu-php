@@ -126,6 +126,15 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $sheetsu = new Sheetsu([
             'sheetId' => 'dc31e735c9ce'
         ]);
+        $sheetsu->sheet('sheet2');
+        $this->assertEquals($sheetsu->_getSheetUrl(), 'https://sheetsu.com/apis/v1.0/dc31e735c9ce/sheets/sheet2');
+    }
+
+    public function testReadFromSpecificSheet()
+    {
+        $sheetsu = new Sheetsu([
+            'sheetId' => 'dc31e735c9ce'
+        ]);
         $response = $sheetsu->sheet('sheet2')->read();
         $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
     }
