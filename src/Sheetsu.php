@@ -168,8 +168,10 @@ final class Sheetsu
             return '{"rows":' . $insertData->_prepareCollectionToJson() . '}';
         } elseif ($this->_isValidModelInterface($insertData)) {
             return json_encode($insertData->_prepareModelAsArray());
-        } else {
+        } elseif ($this->_isMultidimensionalArray($insertData)) {
             return json_encode(['rows' => $insertData]);
+        } else {
+            return json_encode(['rows' => [$insertData]]);
         }
     }
 
@@ -231,6 +233,11 @@ final class Sheetsu
     private function _isValidModelInterface($object)
     {
         return $object !== null && is_subclass_of($object, '\Sheetsu\Interfaces\ModelInterface');
+    }
+
+    private function _isMultidimensionalArray(array $array)
+    {
+        return isset($array[0]) && is_array($array[0]);
     }
 
     /**

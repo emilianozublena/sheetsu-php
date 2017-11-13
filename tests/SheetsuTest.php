@@ -216,17 +216,15 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
     {
         $collection = new Collection();
         $collection->addMultiple([
-            Model::create(['id' => 27, 'name' => 'John', 'score' => 'Baptist']),
-            Model::create(['id' => 28, 'name' => 'Atahualpa', 'score' => 'Yupanqui'])
+            Model::create(['id' => 27, 'name' => 'Johns', 'score' => 'Baptist']),
+            Model::create(['id' => 28, 'name' => 'Atahualpas', 'score' => 'Yupanqui'])
         ]);
         return [
             [
                 [
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
-                    'insertData' => [
-                        ['id' => 23, 'name' => 'John', 'score' => 'Baptist']
-                    ]
+                    'insertData' => ['id' => 23, 'name' => 'Cal', 'score' => 'Baptist']
                 ]
             ],
             [
@@ -244,7 +242,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
                     'insertData' => new Model(
-                        ['id' => 26, 'name' => 'John', 'score' => 'Baptist']
+                        ['id' => 26, 'name' => 'Mirror', 'score' => 'Black']
                     )
                 ]
             ],
