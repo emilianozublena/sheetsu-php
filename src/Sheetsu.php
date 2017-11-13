@@ -35,7 +35,7 @@ final class Sheetsu
      */
     public function initialize(array $config)
     {
-        if($this->_needsNewConnectionObject($config)) {
+        if ($this->_needsNewConnectionObject($config)) {
             $this->_setConnection($config);
         }
         $this->_setSheetId($config['sheetId']);
@@ -123,7 +123,7 @@ final class Sheetsu
      * @param array $conditions
      * @param int $limit
      * @param int $offset
-     * @param string $ignoreCase
+     * @param bool $ignoreCase
      * @return Response
      */
     public function search(array $conditions, $limit = 0, $offset = 0, $ignoreCase = false)

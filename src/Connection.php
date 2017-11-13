@@ -47,6 +47,7 @@ class Connection implements ConnectionInterface
     {
         if ($this->_isValidCall()) {
             $method = $this->config['method'];
+            $this->_initQueryParams();
             if ($this->_hasLimit()) {
                 $this->_prepareLimitInQueryParams();
             }
@@ -79,6 +80,11 @@ class Connection implements ConnectionInterface
         return isset($this->config['method']) && isset($this->config['url']);
     }
 
+    private function _initQueryParams()
+    {
+        $this->config['queryParams'] = [];
+    }
+
     private function _hasLimit()
     {
         return isset($this->config['limit']);
@@ -105,7 +111,7 @@ class Connection implements ConnectionInterface
      */
     private function _hasIgnoreCase()
     {
-        return isset($this->config['ignore_case']);
+        return isset($this->config['ignore_case']) && $this->config['ignore_case'] === true;
     }
 
     /**
@@ -122,7 +128,7 @@ class Connection implements ConnectionInterface
      */
     private function _hasConditions()
     {
-        return isset($this->config['conditions']);
+        return isset($this->config['conditions']) && is_array($this->config['conditions']);
     }
 
     /**
@@ -176,9 +182,7 @@ class Connection implements ConnectionInterface
 
     public function setConfig(array $config)
     {
-        foreach ($config as $key => $value) {
-            $this->config[$key] = $value;
-        }
+        $this->config = $config;
     }
 
     public function getConfig()

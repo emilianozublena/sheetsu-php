@@ -75,7 +75,7 @@ class Collection implements CollectionInterface
 
     public function getAll()
     {
-        return $this->_hasModels() ? $this->models : null;
+        return $this->_hasModels() ? $this->getModels() : null;
     }
 
     /**

@@ -64,11 +64,12 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             'sheetId' => $config['sheetId']
         ]);
         $response = $sheetsu->create($config['insertData']);
+
         $collection = $this->getCollectionFromInsertData($config['insertData']);
 
         $this->assertTrue($response instanceof Response);
 
-        foreach ($collection->getModels() as $model) {
+        foreach ($collection->getAll() as $model) {
             $getResponse = $sheetsu->search($model->_prepareModelAsArray());
             $this->assertTrue($getResponse instanceof Response && $getResponse->getModel() instanceof Model);
         }
@@ -215,8 +216,8 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
     {
         $collection = new Collection();
         $collection->addMultiple([
-            Model::create(['id' => 25, 'name' => 'John', 'score' => 'Baptist']),
-            Model::create(['id' => 26, 'name' => 'Atahualpa', 'score' => 'Yupanqui'])
+            Model::create(['id' => 27, 'name' => 'John', 'score' => 'Baptist']),
+            Model::create(['id' => 28, 'name' => 'Atahualpa', 'score' => 'Yupanqui'])
         ]);
         return [
             [
@@ -224,8 +225,17 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
                     'insertData' => [
-                        ['id' => 25, 'name' => 'John', 'score' => 'Baptist'],
-                        ['id' => 26, 'name' => 'Atahualpa', 'score' => 'Yupanqui']
+                        ['id' => 23, 'name' => 'John', 'score' => 'Baptist']
+                    ]
+                ]
+            ],
+            [
+                [
+                    'method'     => 'post',
+                    'sheetId'    => 'dc31e735c9ce',
+                    'insertData' => [
+                        ['id' => 24, 'name' => 'John', 'score' => 'Baptist'],
+                        ['id' => 25, 'name' => 'Atahualpa', 'score' => 'Yupanqui']
                     ]
                 ]
             ],
@@ -234,7 +244,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
                     'method'     => 'post',
                     'sheetId'    => 'dc31e735c9ce',
                     'insertData' => new Model(
-                        ['id' => 25, 'name' => 'John', 'score' => 'Baptist']
+                        ['id' => 26, 'name' => 'John', 'score' => 'Baptist']
                     )
                 ]
             ],
