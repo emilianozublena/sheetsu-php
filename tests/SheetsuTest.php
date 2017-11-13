@@ -140,6 +140,18 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response instanceof Response && $response->getModel() instanceof Model);
     }
 
+    public function testConsecuentCallsDontStashOldConfigValues()
+    {
+        $sheetsu = new Sheetsu([
+            'sheetId' => 'dc31e735c9ce'
+        ]);
+        $response = $sheetsu->read(1, 0);
+        $firstCollection = $response->getCollection();
+        $response2 = $sheetsu->read(2, 0);
+        $secondCollection = $response2->getCollection();
+        $this->assertTrue(count($firstCollection->getAll()) == 1 && count($secondCollection->getAll()) == 2);
+    }
+
     public function invalidConfigProvider()
     {
         return [

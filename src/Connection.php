@@ -176,7 +176,9 @@ class Connection implements ConnectionInterface
 
     public function setConfig(array $config)
     {
-        $this->config = array_merge($config, $this->config);
+        foreach ($config as $key => $value) {
+            $this->config[$key] = $value;
+        }
     }
 
     public function getConfig()
