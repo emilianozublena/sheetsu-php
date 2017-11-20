@@ -27,6 +27,18 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
         $collection = $response->getCollection();
         $this->assertTrue($collection instanceof Collection);
     }
+    /**
+     * @dataProvider validGetConfigProvider
+     */
+    public function testConstructSetsConnectionSheetAddressFromConfig($config)
+    {
+        $sheetsu = new Sheetsu([
+            'sheetAddress' => $config['sheetAddress']
+        ]);
+        $response = $sheetsu->read();
+        $collection = $response->getCollection();
+        $this->assertTrue($collection instanceof Collection);
+    }
 
     /**
      * @dataProvider validGetConfigProvider
@@ -182,6 +194,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 0,
                     'offset'      => 0,
@@ -192,6 +205,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 1,
                     'offset'      => 0,
@@ -202,6 +216,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 1,
                     'offset'      => 1,
