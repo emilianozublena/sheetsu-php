@@ -39,12 +39,7 @@ final class Sheetsu
             $this->_setConnection($config);
         }
 
-        if (array_key_exists( 'sheetId' , $config )) {
-            $this->_setSheetId($config['sheetId']);
-            $this->_setSheetUrl();
-        } else if (array_key_exists( 'sheetAddress' , $config )) {
-             $this->sheetUrl = $config['sheetAddress'];
-        }
+        $this->_setUrlFromConfig($config);
         return $this;
     }
 
@@ -66,14 +61,27 @@ final class Sheetsu
         $this->connection = new Connection($config);
     }
 
+    private function _setUrlFromConfig(array $config) {
+        if (array_key_exists( 'sheetId' , $config )) {
+            $this->_setSheetId($config['sheetId']);
+            $this->_setSheetUrl();
+        } else if (array_key_exists( 'sheetAddress' , $config )) {
+             $this->_setSheetUrl($config['sheetAddress']);
+        }
+    }
+
     private function _setSheetId($sheetId)
     {
         $this->sheetId = $sheetId;
     }
 
-    private function _setSheetUrl()
+    private function _setSheetUrl($url = null)
     {
-        $this->sheetUrl = self::BASE_URL . $this->sheetId;
+        if (!is_null($url)) {
+            $this->sheetUrl = self::BASE_URL . $this->sheetId;
+        } else {
+            $this->sheetUrl = $url;
+        }
     }
 
     public function _getSheetUrl()

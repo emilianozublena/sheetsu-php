@@ -140,7 +140,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             'sheetId' => 'dc31e735c9ce'
         ]);
         $sheetsu->sheet('sheet2');
-        $this->assertEquals($sheetsu->_getSheetUrl(), 'https://sheetsu.com/apis/v1.0/dc31e735c9ce/sheets/sheet2');
+        $this->assertEquals($sheetsu->_getSheetUrl(), 'https://sheetsu.com/apis/v1.0op/dc31e735c9ce/sheets/sheet2');
     }
 
     public function testReadFromSpecificSheet()
@@ -194,7 +194,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
-                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0op/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 0,
                     'offset'      => 0,
@@ -205,7 +205,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
-                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0op/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 1,
                     'offset'      => 0,
@@ -216,7 +216,7 @@ class SheetsuTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'method'      => 'get',
-                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
+                    'sheetAddress'=> 'https://sheetsu.com/apis/v1.0op/dc31e735c9ce',
                     'sheetId'     => 'dc31e735c9ce',
                     'limit'       => 1,
                     'offset'      => 1,
