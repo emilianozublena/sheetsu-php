@@ -55,7 +55,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                     'key'    => 'MY_KEY',
                     'secret' => 'MY_SECRET',
                     'method' => 'get',
-                    'url'    => 'https://sheetsu.com/apis/v1.0/dc31e735c9ce',
+                    'url'    => 'https://sheetsu.com/apis/v1.0op/dc31e735c9ce',
                     'limit'  => 0,
                     'offset' => 0
                 ]

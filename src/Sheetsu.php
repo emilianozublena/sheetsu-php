@@ -12,7 +12,7 @@ use Sheetsu\Interfaces\ModelInterface;
 
 final class Sheetsu
 {
-    const BASE_URL = 'https://sheetsu.com/apis/v1.0/';
+    const BASE_URL = 'https://sheetsu.com/apis/v1.0op/';
     private $connection;
     private $sheetId;
     private $sheetUrl;
@@ -38,8 +38,8 @@ final class Sheetsu
         if ($this->_needsNewConnectionObject($config)) {
             $this->_setConnection($config);
         }
-        $this->_setSheetId($config['sheetId']);
-        $this->_setSheetUrl();
+
+        $this->_setUrlFromConfig($config);
         return $this;
     }
 
@@ -61,14 +61,27 @@ final class Sheetsu
         $this->connection = new Connection($config);
     }
 
+    private function _setUrlFromConfig(array $config) {
+        if (array_key_exists( 'sheetId' , $config )) {
+            $this->_setSheetId($config['sheetId']);
+            $this->_setSheetUrl();
+        } else if (array_key_exists( 'sheetAddress' , $config )) {
+             $this->_setSheetUrl($config['sheetAddress']);
+        }
+    }
+
     private function _setSheetId($sheetId)
     {
         $this->sheetId = $sheetId;
     }
 
-    private function _setSheetUrl()
+    private function _setSheetUrl($url = null)
     {
-        $this->sheetUrl = self::BASE_URL . $this->sheetId;
+        if (!is_null($url)) {
+            $this->sheetUrl = self::BASE_URL . $this->sheetId;
+        } else {
+            $this->sheetUrl = $url;
+        }
     }
 
     public function _getSheetUrl()
