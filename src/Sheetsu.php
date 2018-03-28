@@ -16,6 +16,7 @@ final class Sheetsu
     private $connection;
     private $sheetId;
     private $sheetUrl;
+    private $documentUrl;
 
     /**
      * Sheetsu constructor. Instantiates Connection object with given config
@@ -81,6 +82,7 @@ final class Sheetsu
             $this->sheetUrl = self::BASE_URL . $this->sheetId;
         } else {
             $this->sheetUrl = $url;
+            $this->documentUrl = $url;
         }
     }
 
@@ -98,7 +100,11 @@ final class Sheetsu
     public function sheet($sheet)
     {
         if (trim($sheet) !== '') {
-            $this->sheetUrl .= '/sheets/' . trim($sheet);
+            if (isset($this->sheetId)) {
+                $this->sheetUrl = Sheetsu::BASE_URL . $this->sheetId . '/sheets/' . trim($sheet);
+            } else {
+                $this->sheetUrl = $this->documentUrl . '/sheets/' . trim($sheet);
+            }
         }
         return $this;
     }
