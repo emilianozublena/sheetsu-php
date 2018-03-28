@@ -77,7 +77,7 @@ final class Sheetsu
 
     private function _setSheetUrl($url = null)
     {
-        if (!is_null($url)) {
+        if (is_null($url)) {
             $this->sheetUrl = self::BASE_URL . $this->sheetId;
         } else {
             $this->sheetUrl = $url;
