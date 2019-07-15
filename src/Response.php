@@ -54,7 +54,12 @@ class Response implements ResponseInterface
     {
         return $this->http->http_status_code;
     }
-
+    
+    public function getResponse()
+    {
+        return $this->http->response;
+    }
+    
     public function getCollection()
     {
         return new Collection($this->http->response);
