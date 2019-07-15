@@ -76,6 +76,17 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider basicValidConnectionConfigProvider
      */
+    public function testGetResponseGestAStringResponse($config)
+    {
+        $connection = new Connection($config);
+        $response = $connection->makeCall();
+        $stringResponse = $response->getResponse();
+        $this->assertTrue(is_string($stringResponse));
+    }
+    
+    /**
+     * @dataProvider basicValidConnectionConfigProvider
+     */
     public function testGetCollectionGestACollectionObjectFromHttpResponse($config)
     {
         $connection = new Connection($config);
