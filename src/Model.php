@@ -55,6 +55,19 @@ class Model implements ModelInterface
     }
     
     /**
+    * Get value of property or null
+    * @param $item
+    * @return Mixed $item
+    */
+    public function getOrNull($item) {
+        if(!isset($this -> $item)) {
+            return null;
+        }else {
+            return $this -> $item;
+        }
+    }
+    
+    /**
      * Stores the $properties given to the instantiated object.
      * the $properties may came as an associative array or a stdClass object
      * @param $properties
