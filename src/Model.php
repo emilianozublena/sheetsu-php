@@ -40,6 +40,29 @@ class Model implements ModelInterface
         return new Model($data);
     }
 
+    
+    /**
+     * Get value of property
+     * @param $item
+     * @return Mixed $item
+     */
+    public function get($item) {
+        if(!isset($this -> $item)) {
+            throw new Exception("Undefined Index `".$item."`");
+        }else {
+            return $this -> $item;
+        }
+    }
+    
+    /**
+    * Get value of property or null
+    * @param $item
+    * @return Mixed $item
+    */
+    public function getOrNull($item) {
+        return !isset($this -> $item) ? $this -> $item : null;
+    }
+    
     /**
      * Stores the $properties given to the instantiated object.
      * the $properties may came as an associative array or a stdClass object
