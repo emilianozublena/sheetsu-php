@@ -46,6 +46,27 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2018-10-10', '2018-10-10');
     }
 
+    /**
+     * @dataProvider sampleModelInputDataProvider
+     */
+    public function testEmptyReturnedFromGetOrNullIfPropertyDoesNotExist($testData)
+    {
+        $model = new Model();
+        $model->update($testData);
+        $this->assertEmpty($model->getOrNull('foobar'));
+    }
+
+    /**
+     * @dataProvider sampleModelInputDataProvider
+     */
+    public function testNullNotReturnedFromGetOrNullIfPropertyDoesExist($testData)
+    {
+        $model = new Model();
+        $model->update($testData);
+        $this->assertEquals(22, $model->getOrNull('amount'));
+    }
+
+
     public function sampleModelInputDataProvider()
     {
         $testClass = new \stdClass();
@@ -57,4 +78,5 @@ class ModelTest extends \PHPUnit_Framework_TestCase
             [$testClass]
         ];
     }
+
 }
