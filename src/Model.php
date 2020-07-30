@@ -60,7 +60,7 @@ class Model implements ModelInterface
     * @return Mixed $item
     */
     public function getOrNull($item) {
-        return !isset($this -> $item) ? $this -> $item : null;
+        return isset($this -> $item) ? $this -> $item : null;
     }
     
     /**
